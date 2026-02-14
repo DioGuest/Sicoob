@@ -24,6 +24,9 @@ restart_jobs = []
 # Lista global para acompanhar limpezas em andamento
 clean_jobs = []
 
+# Lista global para acompanhar restarts completos com limpeza em andamento
+restart_clear_jobs = []
+
 class RestartJob:
     def __init__(self, node, manager_f5, user_info):
         self.node = node
@@ -79,6 +82,34 @@ class CleanJob:
                     self.status = "FINALIZADO (ERRO)"
             else:
                 self.status = f"ERRO: {result.get('message', 'Falha ao iniciar')}"
+        except Exception as e:
+            self.status = f"ERRO: {str(e)}"
+        self.end_time = time.strftime("%H:%M:%S")
+
+class RestartClearJob:
+    def __init__(self, node, manager_f5, user_info):
+        self.node = node
+        self.manager_f5 = manager_f5
+        self.user_info = user_info
+        self.status = "PENDENTE"
+        self.result = None
+        self.thread = threading.Thread(target=self.run)
+        self.start_time = time.strftime("%H:%M:%S")
+        self.end_time = None
+
+    def start(self):
+        self.thread.start()
+
+    def run(self):
+        try:
+            self.status = "EXECUTANDO"
+            result = restart_completo_clear(self.manager_f5, self.node, self.user_info)
+            if result is True:
+                self.status = "FINALIZADO (SUCESSO)"
+                self.result = {"success": True}
+            else:
+                self.status = "FINALIZADO (ERRO)"
+                self.result = {"success": False, "detail": result}
         except Exception as e:
             self.status = f"ERRO: {str(e)}"
         self.end_time = time.strftime("%H:%M:%S")
@@ -269,6 +300,124 @@ def restart_completo(manager_f5, node, user_info):
         console.print(Panel(f"[bold red]Falha ao iniciar ou concluir restart via Jenkins para {node}. Processo NÃO COMPLETO.[/bold red]", style="red"))
     return sucesso
 
+def restart_completo_clear(manager_f5, node, user_info):
+    # Fluxo para um único node: isolamento, limpeza via Jenkins, habilitação
+    console.print(Panel(f"=== RESTART COMPLETO COM LIMPEZA: [bold yellow]{node}[/bold yellow] ===", style="bold cyan", box=box.DOUBLE))
+    console.print(Panel(f"[bold magenta][RESTART COMPLETO CLEAR][/bold magenta] Isolando node [bold yellow]{node}[/bold yellow] em todos os balanceadores...", style="magenta"))
+
+    resultados_offline = executar_em_paralelo(manager_f5.authenticated_balancers, forcar_offline_node, node)
+    offline_table = Table(title="Resultado - Offline", box=box.SIMPLE)
+    offline_table.add_column("Balanceador", style="bold cyan")
+    offline_table.add_column("Resultado", style="bold yellow")
+    for nome, result in resultados_offline:
+        offline_table.add_row(nome, str(result))
+    console.print(offline_table)
+
+    # Adiciona espera de 3 minutos para nodes TRNP após isolamento
+    node_prefix = node[:4].upper()
+    if node_prefix == "TRNP":
+        console.print(Panel("[bold yellow]Node TRNP isolado. Aguardando 3 minutos devido à persistência...[/bold yellow]", style="yellow"))
+        for i in range(3, 0, -1):
+            console.print(f"[yellow]Aguardando {i} minuto(s)...[/yellow]")
+            time.sleep(60)
+
+    console.print(Panel("[bold blue]Aguardando conexões zerarem...[/bold blue]", style="blue"))
+    max_attempts = 60
+    sleep_interval = 10
+    for attempt in range(max_attempts):
+        resultados_status = executar_em_paralelo(manager_f5.authenticated_balancers, consultar_status_node, node)
+        total_conns = 0
+        detalhes = []
+        todos_zero = True
+        for nome, status in resultados_status:
+            conns = status.get("connections", 0) if isinstance(status, dict) else 0
+            detalhes.append(f"[bold]{nome}[/bold]: [green]{conns}[/green] conexões")
+            if conns > 0:
+                todos_zero = False
+            total_conns += conns
+        console.print(f"[yellow]Conexões ativas:[/yellow] [bold]{total_conns}[/bold] | Detalhes: {', '.join(detalhes)}")
+        if todos_zero:
+            console.print(Panel("[bold green]Todas as conexões zeradas![/bold green]", style="green"))
+            break
+        time.sleep(sleep_interval)
+    else:
+        console.print(Panel("[bold red]Timeout esperando conexões zerarem. Abortando restart.[/bold red]", style="red"))
+        return False
+
+    console.print(Panel(f"[bold blue]Executando limpeza via Jenkins para máquina {node}...[/bold blue]", style="blue"))
+    from Restart_Funcoes.restart_Clear import restart_CleanDisk
+    host, cluster_name = pesquisar(node)
+    if not cluster_name:
+        console.print(Panel("[bold red]Cluster não encontrado para o node.[/bold red]", style="red"))
+        return False
+    node_prefix = node[:4].upper()
+    login = user_info["jenkins_user"]
+    senha = user_info["jenkins_token"]
+    sucesso = False
+
+    if node_prefix in ['WASP', 'TRNP']:
+        console.print(Panel(f"[bold cyan]Executando limpeza na máquina {node}...[/bold cyan]", style="cyan"))
+        result = restart_CleanDisk(cluster_name, node, login, senha)
+        console.print(Panel(f"[bold cyan]Resultado Limpeza ({node}):[/bold cyan] {result}", style="cyan"))
+        if result.get("status") == "STARTED" and result.get("job_url"):
+            sucesso = aguardar_job_jenkins(result.get("job_url"), login, senha, node=node, component="Limpeza")
+        else:
+            sucesso = False
+    elif node_prefix == 'CTRP':
+        # Para CTRP executa Limpeza, SRTB e Liberty
+        from Restart_Funcoes.Restart_SRTB import restart_SRTB
+        from Restart_Funcoes.Restart_Liberty import restart_liberty
+        component_results = {}
+
+        console.print(Panel(f"[bold cyan]Executando limpeza na máquina {node}...[/bold cyan]", style="cyan"))
+        result_clear = restart_CleanDisk(cluster_name, node, login, senha)
+        console.print(Panel(f"[bold cyan]Resultado Limpeza ({node}):[/bold cyan] {result_clear}", style="cyan"))
+        if result_clear.get("status") == "STARTED" and result_clear.get("job_url"):
+            component_results['Limpeza'] = aguardar_job_jenkins(result_clear.get("job_url"), login, senha, node=node, component="Limpeza")
+        else:
+            component_results['Limpeza'] = False
+
+        console.print(Panel(f"[bold cyan]Restartando SRTB na máquina {node}...[/bold cyan]", style="cyan"))
+        result_srtb = restart_SRTB("PARALELO", cluster_name, node, login, senha)
+        console.print(Panel(f"[bold cyan]Resultado SRTB ({node}):[/bold cyan] {result_srtb}", style="cyan"))
+        if result_srtb.get("status") == "STARTED" and result_srtb.get("job_url"):
+            component_results['SRTB'] = aguardar_job_jenkins(result_srtb.get("job_url"), login, senha, node=node, component="SRTB")
+        else:
+            component_results['SRTB'] = False
+
+        console.print(Panel(f"[bold cyan]Restartando Liberty na máquina {node}...[/bold cyan]", style="cyan"))
+        result_lib = restart_liberty("PARALELO", cluster_name, node, login, senha)
+        console.print(Panel(f"[bold cyan]Resultado Liberty ({node}):[/bold cyan] {result_lib}", style="cyan"))
+        if result_lib.get("status") == "STARTED" and result_lib.get("job_url"):
+            component_results['Liberty'] = aguardar_job_jenkins(result_lib.get("job_url"), login, senha, node=node, component="Liberty")
+        else:
+            component_results['Liberty'] = False
+
+        sucesso = all(component_results.values())
+        # Mostrar resumo por componente
+        for comp, ok in component_results.items():
+            if ok:
+                console.print(Panel(f"[bold green]{comp} concluído com sucesso![/bold green]", style="green"))
+            else:
+                console.print(Panel(f"[bold red]Falha em {comp}.[/bold red]", style="red"))
+    else:
+        console.print(Panel("[bold red]Prefixo de node não reconhecido para restart completo clear.[/bold red]", style="red"))
+        return False
+
+    if sucesso:
+        console.print(Panel(f"[bold green]Restart completo com limpeza de {node} concluído com sucesso. Habilitando node em todos os balanceadores...[/bold green]", style="green"))
+        resultados_enable = executar_em_paralelo(manager_f5.authenticated_balancers, habilitar_node, node)
+        enable_table = Table(title="Resultado - Enable", box=box.SIMPLE)
+        enable_table.add_column("Balanceador", style="bold cyan")
+        enable_table.add_column("Resultado", style="bold green")
+        for nome, result in resultados_enable:
+            enable_table.add_row(nome, str(result))
+        console.print(enable_table)
+        console.print(Panel("[bold green]Restart completo com limpeza realizado com sucesso![/bold green]", style="green"))
+    else:
+        console.print(Panel(f"[bold red]Falha ao executar limpeza/restart via Jenkins para {node}. Processo NÃO COMPLETO.[/bold red]", style="red"))
+    return sucesso
+
 def aguardar_job_jenkins(job_url, login, senha, node=None, component=None, max_attempts=60, sleep_interval=10):
     from Restart_Funcoes.Restart_Websphere import check_job_status
     label = f"{component} - {node}" if component or node else "Jenkins Job"
@@ -358,15 +507,16 @@ def main_menu(manager_f5, user_info):
         console.print("[yellow]2.[/yellow] Forçar node offline")
         console.print("[yellow]3.[/yellow] Habilitar node")
         console.print("[yellow]4.[/yellow] Restart completo de node")
-        console.print("[yellow]5.[/yellow] Listar pools disponíveis")
-        console.print("[yellow]6.[/yellow] Listar membros de um pool")
-        console.print("[yellow]7.[/yellow] Sair")
+        console.print("[yellow]5.[/yellow] Restart completo com limpeza")
+        console.print("[yellow]6.[/yellow] Listar pools disponíveis")
+        console.print("[yellow]7.[/yellow] Listar membros de um pool")
         console.print("[yellow]8.[/yellow] Limpeza Disco-Opt + OutOfMemory")
         console.print("[yellow]9.[/yellow] Acompanhar operações em andamento")
         console.print("[yellow]10.[/yellow] Limpeza Jenkins sem isolamento")
-        opcao = Prompt.ask("Escolha uma opção", choices=["1","2","3","4","5","6","7","8","9","10"])
+        console.print("[yellow]11.[/yellow] Sair")
+        opcao = Prompt.ask("Escolha uma opção", choices=["1","2","3","4","5","6","7","8","9","10","11"])
         # Verifica se todos os balanceadores estão autenticados antes de qualquer ação
-        if opcao in ['1','2','3','4','5','6']:
+        if opcao in ['1','2','3','4','5','6','7']:
             if not verificar_balancers_autenticados(manager_f5):
                 continue
         if opcao == '1':
@@ -434,8 +584,8 @@ def main_menu(manager_f5, user_info):
                 restart_jobs.append(job)
                 job.start()
             console.print(Panel("[bold blue]Restart(s) iniciado(s) em segundo plano![/bold blue]\nUse a opção 9 para acompanhar.", style="blue"))
-        elif opcao == '5':
-            sub = Prompt.ask("Opção 5 - Escolha: 1) Listar todos pools  2) Pesquisar pools", choices=["1","2"], default="1")
+        elif opcao == '6':
+            sub = Prompt.ask("Opção 6 - Escolha: 1) Listar todos pools  2) Pesquisar pools", choices=["1","2"], default="1")
             if sub == '1':
                 resultados = executar_em_paralelo(manager_f5.authenticated_balancers, listar_pools)
                 table = Table(title="Pools Disponíveis", box=box.SIMPLE)
@@ -471,7 +621,7 @@ def main_menu(manager_f5, user_info):
                 if not any_match:
                     console.print(Panel(f"[yellow]Nenhum pool encontrado para '{termo}'[/yellow]", style="yellow"))
                 console.print(table)
-        elif opcao == '6':
+        elif opcao == '7':
             pool = Prompt.ask("Nome do pool (incluindo 'pool-')").strip()
             resultados = executar_em_paralelo(manager_f5.authenticated_balancers, listar_membros_pool, pool)
             table = Table(title=f"Membros do Pool {pool}", box=box.SIMPLE_HEAVY)
@@ -533,7 +683,7 @@ def main_menu(manager_f5, user_info):
                 except Exception:
                     table.add_row(nome, str(members), end_section=True)
             console.print(table)
-        elif opcao == '7':
+        elif opcao == '11':
             console.print("[bold red]Saindo...[/bold red]")
             manager_f5.cleanup()
             break
@@ -604,6 +754,24 @@ def main_menu(manager_f5, user_info):
                     job.start_time,
                     job.end_time if job.end_time else "-"
                 )
+            for job in restart_clear_jobs:
+                # Colorir status: sucesso=verde, erro=vermelho, executando=amarelo
+                st = (job.status or "").upper()
+                if "SUCESSO" in st or "FINALIZADO (SUCESSO)" in st:
+                    status_col = f"[green]{job.status}[/green]"
+                elif "EXECUTANDO" in st or "RUNNING" in st:
+                    status_col = f"[yellow]{job.status}[/yellow]"
+                else:
+                    # tratar como erro/falha por padrão
+                    status_col = f"[red]{job.status}[/red]"
+
+                table.add_row(
+                    "Restart Clear",
+                    job.node,
+                    status_col,
+                    job.start_time,
+                    job.end_time if job.end_time else "-"
+                )
             console.print(table)
         elif opcao == '10':
             nodes = Prompt.ask("Nome(s) do node (separados por vírgula)").strip().upper().replace(" ", "")
@@ -616,6 +784,17 @@ def main_menu(manager_f5, user_info):
                 clean_jobs.append(job)
                 job.start()
                 console.print(Panel(f"[bold green]Limpeza iniciada para {node} em background.[/bold green]", style="green"))
+        elif opcao == '5':
+            nodes = Prompt.ask("Nome(s) do node (separados por vírgula)").strip().upper().replace(" ", "")
+            for node in nodes.split(","):
+                host, cluster_name = pesquisar(node)
+                if not cluster_name:
+                    console.print(Panel("[bold red]Cluster não encontrado para o node.[/bold red]", style="red"))
+                    continue
+                job = RestartClearJob(node, manager_f5, user_info)
+                restart_clear_jobs.append(job)
+                job.start()
+                console.print(Panel(f"[bold green]Restart completo com limpeza iniciado para {node} em background.[/bold green]", style="green"))
         else:
             console.print("[red]Opção inválida.[/red]")
 

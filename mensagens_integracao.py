@@ -68,6 +68,26 @@ def obter_mensagens_disponiveis():
 *Obs*: Executando ações de 1º nível para regularização.
  
 *Regularizado*: """
+        },
+
+        "SISBR_COBRANCA": {
+            "titulo": "Sisbr - Cobrança Administrativa",
+            "cluster": "WASP",
+            "conteudo": """*Sisbr* - Cobrança Administrativa
+ 
+*Incidente*: Instabilidade nas transações com integração no COBADM
+ 
+*Hora Inicio*: 
+ 
+*Impacto*: MANTER FICHA DEVEDOR SERVIÇO
+ 
+*Causa*: Instabilidade no servidor do conta corrente. 
+ 
+*Acionados*: Área de Operações de TI
+ 
+*Obs*: Regularizado após ações de 1º nível
+ 
+*Regularizado*: """
         }
     }
 
@@ -85,6 +105,10 @@ def detectar_tipo_mensagem(node, cluster_name):
     
     node_upper = node.upper()
     cluster_upper = cluster_name.upper() if cluster_name else ""
+    
+    # Verificar máquinas específicas para Sisbr Cobrança
+    if node_upper in ["WASP4068", "WASP2095", "WASP2094"]:
+        return "SISBR_COBRANCA", obter_mensagens_disponiveis()["SISBR_COBRANCA"]
     
     # Verificar ATM (TRNP + FrontofficeTransacionalATMCluster)
     if node_upper.startswith("TRNP"):

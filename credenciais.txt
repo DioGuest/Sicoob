@@ -1,5 +1,5 @@
 usuario_f5=adm-jose.nascimento
-senha_f5=+#+WnFmlErNEZmMYVFQg
+senha_f5=-ZgF#VXBHLIfD#ZeZbQ8H
 usuario_jenkins=diogo.soares
 token_jenkins=11941d07ebba11ba7cbf0c75bb998766e4
 ADM-SICOOB=adm-jose.nascimento

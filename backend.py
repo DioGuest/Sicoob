@@ -21,6 +21,9 @@ console = Console()
 # Lista global para acompanhar restarts em andamento
 restart_jobs = []
 
+# Lista global para acompanhar limpezas em andamento
+clean_jobs = []
+
 class RestartJob:
     def __init__(self, node, manager_f5, user_info):
         self.node = node
@@ -45,6 +48,37 @@ class RestartJob:
             else:
                 self.status = "FINALIZADO (ERRO)"
                 self.result = {"success": False, "detail": result}
+        except Exception as e:
+            self.status = f"ERRO: {str(e)}"
+        self.end_time = time.strftime("%H:%M:%S")
+
+class CleanJob:
+    def __init__(self, node, cluster_name, user_info):
+        self.node = node
+        self.cluster_name = cluster_name
+        self.user_info = user_info
+        self.status = "PENDENTE"
+        self.result = None
+        self.thread = threading.Thread(target=self.run)
+        self.start_time = time.strftime("%H:%M:%S")
+        self.end_time = None
+
+    def start(self):
+        self.thread.start()
+
+    def run(self):
+        try:
+            self.status = "EXECUTANDO"
+            from Restart_Funcoes.restart_Clear import restart_CleanDisk
+            result = restart_CleanDisk(self.cluster_name, self.node, self.user_info["jenkins_user"], self.user_info["jenkins_token"])
+            if result.get("status") == "STARTED" and result.get("job_url"):
+                sucesso = aguardar_job_jenkins(result.get("job_url"), self.user_info["jenkins_user"], self.user_info["jenkins_token"], node=self.node, component="Limpeza")
+                if sucesso:
+                    self.status = "FINALIZADO (SUCESSO)"
+                else:
+                    self.status = "FINALIZADO (ERRO)"
+            else:
+                self.status = f"ERRO: {result.get('message', 'Falha ao iniciar')}"
         except Exception as e:
             self.status = f"ERRO: {str(e)}"
         self.end_time = time.strftime("%H:%M:%S")
@@ -328,8 +362,9 @@ def main_menu(manager_f5, user_info):
         console.print("[yellow]6.[/yellow] Listar membros de um pool")
         console.print("[yellow]7.[/yellow] Sair")
         console.print("[yellow]8.[/yellow] Limpeza Disco-Opt + OutOfMemory")
-        console.print("[yellow]9.[/yellow] Acompanhar restarts em andamento")
-        opcao = Prompt.ask("Escolha uma opção", choices=["1","2","3","4","5","6","7","8","9"])
+        console.print("[yellow]9.[/yellow] Acompanhar operações em andamento")
+        console.print("[yellow]10.[/yellow] Limpeza Jenkins sem isolamento")
+        opcao = Prompt.ask("Escolha uma opção", choices=["1","2","3","4","5","6","7","8","9","10"])
         # Verifica se todos os balanceadores estão autenticados antes de qualquer ação
         if opcao in ['1','2','3','4','5','6']:
             if not verificar_balancers_autenticados(manager_f5):
@@ -527,7 +562,8 @@ def main_menu(manager_f5, user_info):
                 panel_text += f"[bold magenta]OutOfMemory:[/bold magenta]\n{result_oom['message'] if isinstance(result_oom, dict) else result_oom}\n"
                 console.print(Panel(panel_text, style="cyan"))
         elif opcao == '9':
-            table = Table(title="Acompanhamento de Restarts", box=box.SIMPLE)
+            table = Table(title="Acompanhamento de Operações", box=box.SIMPLE)
+            table.add_column("Tipo", style="bold magenta")
             table.add_column("Node", style="bold yellow")
             table.add_column("Status", style="bold cyan")
             table.add_column("Início", style="green")
@@ -544,12 +580,42 @@ def main_menu(manager_f5, user_info):
                     status_col = f"[red]{job.status}[/red]"
 
                 table.add_row(
+                    "Restart",
+                    job.node,
+                    status_col,
+                    job.start_time,
+                    job.end_time if job.end_time else "-"
+                )
+            for job in clean_jobs:
+                # Colorir status: sucesso=verde, erro=vermelho, executando=amarelo
+                st = (job.status or "").upper()
+                if "SUCESSO" in st or "FINALIZADO (SUCESSO)" in st:
+                    status_col = f"[green]{job.status}[/green]"
+                elif "EXECUTANDO" in st or "RUNNING" in st:
+                    status_col = f"[yellow]{job.status}[/yellow]"
+                else:
+                    # tratar como erro/falha por padrão
+                    status_col = f"[red]{job.status}[/red]"
+
+                table.add_row(
+                    "Limpeza",
                     job.node,
                     status_col,
                     job.start_time,
                     job.end_time if job.end_time else "-"
                 )
             console.print(table)
+        elif opcao == '10':
+            nodes = Prompt.ask("Nome(s) do node (separados por vírgula)").strip().upper().replace(" ", "")
+            for node in nodes.split(","):
+                host, cluster_name = pesquisar(node)
+                if not cluster_name:
+                    console.print(Panel("[bold red]Cluster não encontrado para o node.[/bold red]", style="red"))
+                    continue
+                job = CleanJob(node, cluster_name, user_info)
+                clean_jobs.append(job)
+                job.start()
+                console.print(Panel(f"[bold green]Limpeza iniciada para {node} em background.[/bold green]", style="green"))
         else:
             console.print("[red]Opção inválida.[/red]")
 

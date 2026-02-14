@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoramento de Clusters - F5 Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/sicoob-theme.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="app" class="app-wrapper">
+        <!-- Barra Lateral -->
+        <nav class="sidebar">
+            <div class="sidebar-header text-center">
+                <img src="/assets/img/logo-sicoob.png" alt="Sicoob" class="sidebar-logo">
+                <h4 class="mb-0">F5 Manager</h4>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="/index"><i class="fas fa-server"></i><span>Consulta de Nodes</span></a></li>
+                <li><a href="/pools-page"><i class="fas fa-layer-group"></i><span>Consulta de Pools</span></a></li>
+                <li><a href="/processamento-page"><i class="fas fa-cogs"></i><span>Restart de Processamento</span></a></li>
+                <li><a href="/monitoracao-page" class="active"><i class="fas fa-chart-bar"></i><span>Monitoramento</span></a></li>
+            </ul>
+        </nav>
+
+        <!-- Barra de Navegação Superior -->
+        <nav class="navbar navbar-expand navbar-light bg-white shadow-sm" style="position:fixed; left:var(--sidebar-width); right:0; top:0; z-index:1200; height:64px; padding:0 1.5rem;">
+            <div class="container-fluid d-flex align-items-center justify-content-end" style="height:64px;">
+                <div class="d-flex align-items-center user-navbar-area">
+                    <div class="user-avatar me-2"><i class="fas fa-user"></i></div>
+                    <div class="user-details me-2">
+                        <strong class="d-block">{{ username }}</strong>
+                        <small class="text-muted">Usuário F5</small>
+                    </div>
+                    <button @click="logout" class="logout-btn ms-2" title="Sair"><i class="fas fa-sign-out-alt"></i></button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Conteúdo da Página -->
+        <main class="main-content" style="padding-top:84px;">
+            <div class="content-wrapper">
+                <div class="container-fluid">
+                    <!-- Cabeçalho e Controles -->
+                    <div class="sicoob-card mb-4">
+                        <div class="card-header">
+                            <h4 class="sicoob-title mb-0">Dashboard de Monitoramento</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row align-items-end">
+                                <div class="col-md-6">
+                                    <label class="form-label">Clusters para Monitorar</label>
+                                    <input type="search" class="form-control form-control-sm mb-2 sicoob-input" placeholder="Pesquisar cluster..." v-model="clusterSearch" :disabled="isMonitoring">
+                                    <div class="cluster-selector-box p-2 border rounded" style="max-height: 150px; overflow-y: auto;">
+                                        <div v-if="isLoadingClusters" class="text-muted small p-2">Carregando clusters...</div>
+                                        <div v-else>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" v-model="selectAllClusters" id="selectAllClustersCheck" :disabled="isMonitoring">
+                                                <label class="form-check-label fw-bold" for="selectAllClustersCheck">Selecionar Todos Visíveis</label>
+                                            </div>
+                                            <hr class="my-1">
+                                            <div v-for="cluster in filteredClusters" :key="cluster" class="form-check">
+                                                <input class="form-check-input" type="checkbox" :value="cluster" v-model="selectedClusters" :id="'cluster-check-' + cluster" :disabled="isMonitoring">
+                                                <label class="form-check-label" :for="'cluster-check-' + cluster">{{ cluster }}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="refreshInterval" class="form-label">Intervalo de Atualização</label>
+                                    <select id="refreshInterval" class="form-select sicoob-input" v-model.number="refreshInterval" :disabled="isMonitoring">
+                                        <option value="15">15 segundos</option>
+                                        <option value="30">30 segundos</option>
+                                        <option value="60">1 minuto</option>
+                                        <option value="300">5 minutos</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn w-100" :class="isMonitoring ? 'sicoob-btn-danger' : 'sicoob-btn-primary'" @click="toggleMonitoring" :disabled="selectedClusters.length === 0">
+                                        <i class="fas" :class="isMonitoring ? 'fa-spinner fa-spin' : 'fa-play'"></i>
+                                        {{ isMonitoring ? 'Monitorando...' : 'Iniciar Monitoramento' }}
+                                    </button>
+                                </div>
+                            </div>
+                            <div v-if="lastUpdateTime" class="text-muted small text-end mt-2">
+                                Última atualização: {{ lastUpdateTime }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard de Status -->
+                    <div v-if="isLoading && !isMonitoring" class="text-center my-5">
+                        <i class="fas fa-spinner fa-spin fa-3x"></i>
+                        <p class="mt-3">Carregando dados...</p>
+                    </div>
+
+                    <div v-if="!monitoringData && !isLoading" class="text-center my-5 text-muted">
+                        <i class="fas fa-chart-bar fa-3x mb-3"></i>
+                        <h5>Selecione os clusters e inicie o monitoramento.</h5>
+                    </div>
+
+                    <div v-if="monitoringData" class="row align-items-stretch">
+                        <!-- Cards de Resumo -->
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="sicoob-card h-100">
+                                <div class="card-body text-center">
+                                    <h6 class="sicoob-title-sm">Total de Nodes</h6>
+                                    <h2 class="display-5 fw-bold">{{ monitoringData.summary.total_nodes }}</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="sicoob-card h-100">
+                                <div class="card-body text-center">
+                                    <h6 class="sicoob-title-sm">Total de Pools</h6>
+                                    <h2 class="display-5 fw-bold">{{ monitoringData.summary.total_pools }}</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="sicoob-card h-100">
+                                <div class="card-body text-center">
+                                    <h6 class="sicoob-title-sm">Nodes com Problema</h6>
+                                    <h2 class="display-5 fw-bold text-danger">{{ monitoringData.summary.nodes_disabled + monitoringData.summary.nodes_offline }}</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="sicoob-card h-100">
+                                <div class="card-body text-center">
+                                    <h6 class="sicoob-title-sm">Pools com Problema</h6>
+                                    <h2 class="display-5 fw-bold text-danger">{{ monitoringData.summary.pools_unhealthy + monitoringData.summary.pools_offline }}</h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gráfico geral (todos os pools juntos) -->
+                        <div class="col-lg-6 col-md-12 mb-4 d-flex">
+                            <div class="sicoob-card flex-fill d-flex flex-column justify-content-center align-items-center" style="min-height:340px;">
+                                <div class="card-body w-100">
+                                    <h5 class="sicoob-title text-center">Status dos Nodes (Geral)</h5>
+                                    <div style="width:100%;height:300px;display:flex;align-items:center;justify-content:center;">
+                                        <canvas id="nodesChart" style="width:100% !important;max-width:350px;min-height:260px;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 mb-4 d-flex">
+                            <div class="sicoob-card flex-fill d-flex flex-column justify-content-center align-items-center" style="min-height:340px;">
+                                <div class="card-body w-100">
+                                    <h5 class="sicoob-title text-center">Saúde dos Pools (Geral)</h5>
+                                    <div style="width:100%;height:300px;display:flex;align-items:center;justify-content:center;">
+                                        <canvas id="poolsChart" style="width:100% !important;max-width:350px;min-height:260px;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gráficos e status dos pools em grid horizontal compacto -->
+                        <div class="col-12">
+                            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3">
+                                <template v-for="poolName in selectedClusters" :key="poolName">
+                                    <div v-if="monitoringData.pool_details && monitoringData.pool_details[poolName]" class="col">
+                                        <div class="sicoob-card h-100 d-flex flex-column">
+                                            <div class="card-header d-flex align-items-center py-2 px-3" style="min-height:48px;">
+                                                <h6 class="sicoob-title mb-0 text-truncate" style="font-size:1rem;">
+                                                    <span class="text-primary">{{ poolName }}</span>
+                                                </h6>
+                                            </div>
+                                            <div class="card-body py-2 px-3 d-flex flex-column align-items-center justify-content-center" style="flex:1;">
+                                                <!-- Gráfico individual do pool -->
+                                                <div style="width:100%;height:120px;display:flex;align-items:center;justify-content:center;">
+                                                    <canvas :id="'nodesChart-' + poolName" style="width:100% !important;max-width:120px;min-height:90px;"></canvas>
+                                                </div>
+                                                <!-- Summary do Pool -->
+                                                <div class="text-center w-100 my-2" style="font-size: 0.9rem;">
+                                                    <span class="fw-bold">Total: {{ monitoringData.pool_details[poolName].summary.total }}</span> |
+                                                    <span class="text-success">Up: {{ monitoringData.pool_details[poolName].summary.enabled }}</span> |
+                                                    <span class="text-danger">Down: {{ monitoringData.pool_details[poolName].summary.offline + monitoringData.pool_details[poolName].summary.disabled }}</span>
+                                                </div>
+                                                <div v-if="getProblemMembers(poolName).length > 0" class="w-100 mt-2">
+                                                    <div class="alert alert-warning py-1 px-2 mb-2" style="font-size:0.95rem;">
+                                                        <strong>Membros com problema:</strong>
+                                                    </div>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-sm table-bordered align-middle mb-0" style="font-size:0.92em;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Nome</th>
+                                                                    <th>Status</th>
+                                                                    <th>Estado</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr v-for="member in getProblemMembers(poolName)" :key="member.name">
+                                                                    <td class="text-truncate" style="max-width:90px;">{{ member.name }}</td>
+                                                                    <td>
+                                                                        <span :class="{
+                                                                            'badge status-enabled': member.status === 'enabled' && member.state === 'up',
+                                                                            'badge status-disabled': member.status === 'disabled',
+                                                                            'badge status-offline': member.state === 'down'
+                                                                        }">
+                                                                            {{ member.status }}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span :class="{
+                                                                            'badge status-enabled': member.status === 'enabled' && member.state === 'up',
+                                                                            'badge status-disabled': member.status === 'disabled',
+                                                                            'badge status-offline': member.state === 'down'
+                                                                        }">
+                                                                            {{ member.state }}
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div v-else class="w-100 mt-2">
+                                                    <div class="alert alert-success py-1 px-2 mb-0" style="font-size:0.95rem;">Todos os membros saudáveis.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const { createApp, ref, computed, onMounted, onUnmounted, watch } = Vue;
+
+        createApp({
+            setup() {
+                const username = ref('');
+                const availableClusters = ref([]);
+                const selectedClusters = ref([]);
+                const clusterSearch = ref('');
+                const refreshInterval = ref(30);
+                const isMonitoring = ref(false);
+                const isLoading = ref(false);
+                const isLoadingClusters = ref(false);
+                const monitoringData = ref(null);
+                const lastUpdateTime = ref('');
+                let monitorTimer = null;
+                let nodesChart = null;
+                let poolsChart = null;
+                let poolCharts = {};
+
+                // Função para obter todos os membros de um pool específico a partir dos dados de monitoramento
+                const getPoolDetails = (poolName) => {
+                    if (!monitoringData.value || !monitoringData.value.pool_details) return null;
+                    return monitoringData.value.pool_details[poolName] || null;
+                };
+
+                // Função para obter apenas os membros com problema de um pool
+                const getProblemMembers = (poolName) => {
+                    if (!monitoringData.value || !monitoringData.value.pool_details || !monitoringData.value.pool_details[poolName]) {
+                        return [];
+                    }
+                    const details = monitoringData.value.pool_details[poolName];
+                    if (!details || !details.members) return [];
+                    return details.members.filter(m => m.state !== 'up' || m.status !== 'enabled');
+                };
+
+                const filteredClusters = computed(() => {
+                    if (!clusterSearch.value) {
+                        return availableClusters.value;
+                    }
+                    return availableClusters.value.filter(c => 
+                        c.toLowerCase().includes(clusterSearch.value.toLowerCase())
+                    );
+                });
+
+                const selectAllClusters = computed({
+                    get() {
+                        const filtered = filteredClusters.value;
+                        return filtered.length > 0 && 
+                               filtered.every(c => selectedClusters.value.includes(c));
+                    },
+                    set(value) {
+                        const filtered = filteredClusters.value;
+                        if (value) {
+                            const clustersToAdd = filtered.filter(c => !selectedClusters.value.includes(c));
+                            selectedClusters.value.push(...clustersToAdd);
+                        } else {
+                            selectedClusters.value = selectedClusters.value.filter(c => !filtered.includes(c));
+                        }
+                    }
+                });
+
+                const getUserInfo = async () => {
+                    try {
+                        const response = await axios.get('/user/info');
+                        username.value = response.data.displayName;
+                    } catch (error) {
+                        window.location.href = '/login';
+                    }
+                };
+
+                const logout = () => {
+                    document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    window.location.href = '/login';
+                };
+
+                const fetchAvailableClusters = async () => {
+                    isLoadingClusters.value = true;
+                    try {
+                        const response = await axios.get('/pools'); 
+                        availableClusters.value = response.data.sort();
+                    } catch (error) {
+                        console.error("Erro ao buscar clusters disponíveis:", error);
+                        alert("Não foi possível carregar a lista de clusters. Tente recarregar a página.");
+                    } finally {
+                        isLoadingClusters.value = false;
+                    }
+                };
+
+                const fetchMonitoringData = async () => {
+                    if (selectedClusters.value.length === 0) {
+                        stopMonitoring();
+                        return;
+                    }
+                    isLoading.value = true;
+                    try {
+                        const response = await axios.post('/monitoring/pools-status', {
+                            pools: selectedClusters.value
+                        });
+                        monitoringData.value = response.data;
+                        lastUpdateTime.value = new Date().toLocaleTimeString();
+                        await Vue.nextTick();
+                        updateCharts();
+                    } catch (error) {
+                        console.error("Erro ao buscar dados de monitoramento:", error);
+                        stopMonitoring();
+                        alert("Falha ao buscar dados de monitoramento. O monitoramento foi interrompido.");
+                    } finally {
+                        isLoading.value = false;
+                    }
+                };
+
+                const createOrUpdateChart = (chartInstance, canvasId, chartConfig) => {
+                    const ctx = document.getElementById(canvasId)?.getContext('2d');
+                    if (!ctx) return chartInstance;
+
+                    if (chartInstance) {
+                        chartInstance.data.labels = chartConfig.data.labels;
+                        chartInstance.data.datasets[0].data = chartConfig.data.datasets[0].data;
+                        chartInstance.update();
+                        return chartInstance;
+                    } else {
+                        return new Chart(ctx, chartConfig);
+                    }
+                };
+                
+                const getChartConfig = (labels, data) => ({
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: ['#28a745', '#dc3545', '#ffc107'],
+                            borderWidth: 1,
+                            borderColor: '#ffffff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '60%',
+                        plugins: {
+                            legend: { position: 'right', labels: { boxWidth: 12 } },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        let value = context.parsed;
+                                        let total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                        let percent = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                        return `${label}: ${value} (${percent}%)`;
+                                    }
+                                }
+                            }
+                        }
+                    },
+                });
+
+                const updateCharts = () => {
+                    if (!monitoringData.value) return;
+
+                    const { summary } = monitoringData.value;
+
+                    // Gráfico geral de Nodes
+                    nodesChart = createOrUpdateChart(nodesChart, 'nodesChart', getChartConfig(
+                        ['Enabled', 'Offline', 'Disabled'],
+                        [summary.nodes_enabled, summary.nodes_offline, summary.nodes_disabled]
+                    ));
+
+                    // Gráfico geral de Pools
+                    poolsChart = createOrUpdateChart(poolsChart, 'poolsChart', getChartConfig(
+                        ['Healthy', 'Unhealthy', 'Offline'],
+                        [summary.pools_healthy, summary.pools_unhealthy, summary.pools_offline]
+                    ));
+
+                    // Gráficos individuais por pool
+                    selectedClusters.value.forEach(poolName => {
+                        const details = getPoolDetails(poolName);
+                        let enabled = 0, disabled = 0, offline = 0;
+                        if (details && details.members) {
+                            details.members.forEach(m => {
+                                if (m.state === 'down') offline++;
+                                else if (m.status === 'disabled') disabled++;
+                                else if (m.status === 'enabled' && m.state === 'up') enabled++;
+                            });
+                        }
+                        
+                        const canvasId = 'nodesChart-' + poolName;
+                        poolCharts[poolName] = createOrUpdateChart(poolCharts[poolName], canvasId, getChartConfig(
+                            ['Enabled', 'Offline', 'Disabled'],
+                            [enabled, offline, disabled]
+                        ));
+                    });
+                };
+
+                const destroyCharts = () => {
+                    if (nodesChart) { nodesChart.destroy(); nodesChart = null; }
+                    if (poolsChart) { poolsChart.destroy(); poolsChart = null; }
+                    Object.values(poolCharts).forEach(chart => chart.destroy());
+                    poolCharts = {};
+                };
+
+                const startMonitoring = () => {
+                    if (selectedClusters.value.length === 0) {
+                        alert("Por favor, selecione pelo menos um cluster para monitorar.");
+                        return;
+                    }
+                    isMonitoring.value = true;
+                    monitoringData.value = null;
+                    destroyCharts(); // Destrói gráficos antigos antes de começar
+                    fetchMonitoringData();
+                    if (monitorTimer) clearInterval(monitorTimer);
+                    monitorTimer = setInterval(fetchMonitoringData, refreshInterval.value * 1000);
+                };
+
+                const stopMonitoring = () => {
+                    isMonitoring.value = false;
+                    if (monitorTimer) {
+                        clearInterval(monitorTimer);
+                        monitorTimer = null;
+                    }
+                };
+
+                const toggleMonitoring = () => {
+                    if (isMonitoring.value) {
+                        stopMonitoring();
+                    } else {
+                        startMonitoring();
+                    }
+                };
+
+                onMounted(() => {
+                    getUserInfo();
+                    fetchAvailableClusters();
+                });
+
+                onUnmounted(() => {
+                    stopMonitoring();
+                    destroyCharts();
+                });
+
+                return {
+                    username,
+                    availableClusters,
+                    selectedClusters,
+                    clusterSearch,
+                    filteredClusters,
+                    selectAllClusters,
+                    refreshInterval,
+                    isMonitoring,
+                    isLoading,
+                    isLoadingClusters,
+                    monitoringData,
+                    lastUpdateTime,
+                    logout,
+                    toggleMonitoring,
+                    getProblemMembers,
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
+
+<style>
+/* ...existing code... */
+.sicoob-card .card-body > div > canvas,
+.sicoob-card .card-body canvas {
+    min-height: 90px !important;
+    max-width: 120px;
+    width: 100% !important;
+    display: block;
+    margin: 0 auto;
+}
+.sicoob-card .table {
+    margin-bottom: 0;
+}
+.sicoob-card .table th, .sicoob-card .table td {
+    padding: 0.25rem 0.5rem;
+    vertical-align: middle;
+}
+.sicoob-card .alert {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.95em;
+}
+.sicoob-card .card-header {
+    min-height: 44px;
+}
+.sicoob-card .card-body {
+    padding: 0.7rem 0.7rem 0.7rem 0.7rem;
+}
+@media (max-width: 1200px) {
+    .row-cols-xl-4 > .col {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+@media (max-width: 900px) {
+    .row-cols-xl-4 > .col,
+    .row-cols-lg-3 > .col {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+</style>

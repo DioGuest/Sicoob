@@ -1,0 +1,31 @@
+#table-body tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#table-body tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+#table-body td {
+    color: #000000;
+}
+
+#table-body tr:hover {
+    background-color: #ddd;
+}
+
+/* Estilos para os badges de status com seletores mais específicos */
+.table .badge.status-enabled {
+    background-color: #28a745 !important;
+    color: white !important;
+}
+
+.table .badge.status-disabled {
+    background-color: #ffc107 !important;
+    color: #212529 !important;
+}
+
+.table .badge.status-offline {
+    background-color: #dc3545 !important;
+    color: white !important;
+}

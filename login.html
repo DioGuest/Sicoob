@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F5 Login</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/assets/css/sicoob-theme.css">
+    <!-- Vue.js e Axios ANTES do fechamento do head -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div class="login-container">
+            <div class="login-card bg-white">
+                <!-- Header sem v-cloak -->
+                <div class="login-header">
+                    <!-- Corrigir caminho do logo -->
+                    <img src="/assets/img/logo-sicoob.png" alt="Sicoob" class="login-logo">
+                    <h3>F5 Manager</h3>
+                    <p class="mb-0">Autenticação do Sistema</p>
+                </div>
+                
+                <!-- Formulário -->
+                <div class="card-body p-4">
+                    <!-- NOVO: Seletor de tipo de acesso -->
+                    <div class="mb-4">
+                        <div class="btn-group w-100" role="group">
+                            <button type="button" class="btn"
+                                :class="accessType === 'full' ? 'btn-primary' : 'btn-outline-primary'"
+                                @click="accessType = 'full'">
+                                <i class="fas fa-user-shield me-1"></i> Acesso Completo
+                            </button>
+                            <button type="button" class="btn"
+                                :class="accessType === 'processing' ? 'btn-success' : 'btn-outline-success'"
+                                @click="accessType = 'processing'">
+                                <i class="fas fa-cogs me-1"></i> Processamento
+                            </button>
+                        </div>
+                    </div>
+                    <form @submit.prevent="authenticate">
+                        <!-- Campos F5 só para acesso completo -->
+                        <div v-if="accessType === 'full'">
+                            <div class="mb-3">
+                                <label class="form-label">Usuário F5</label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    v-model="credentials.username"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Senha F5</label>
+                                <input 
+                                    type="password" 
+                                    class="form-control" 
+                                    v-model="credentials.password"
+                                    required>
+                            </div>
+                        </div>
+                        <!-- Campos Jenkins sempre visíveis -->
+                        <div class="mb-3">
+                            <label class="form-label">Usuário Jenkins</label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                v-model="credentials.jenkins_user"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Token Jenkins</label>
+                            <input 
+                                type="password" 
+                                class="form-control" 
+                                v-model="credentials.jenkins_token"
+                                required>
+                            <small class="text-muted">Token de API do Jenkins</small>
+                        </div>
+                        <button 
+                            type="submit" 
+                            class="btn btn-primary w-100"
+                            :disabled="!isFormValid || isAuthenticating"
+                            aria-label="Entrar">
+                            <i class="fas" :class="{'fa-spinner fa-spin': isAuthenticating, 'fa-sign-in-alt': !isAuthenticating}"></i>
+                            {{ accessType === 'full' ? (isAuthenticating ? 'Autenticando...' : 'Entrar (Completo)') : (isAuthenticating ? 'Entrando...' : 'Entrar Processamento') }}
+                        </button>
+                    </form>
+
+                    <!-- Mensagens de erro -->
+                    <div v-if="authenticationStatus.length > 0" class="mt-3">
+                        <div v-for="status in authenticationStatus" 
+                             :key="status.balancer" 
+                             class="alert"
+                             :class="{
+                                 'alert-success': status.status === 'success',
+                                 'alert-danger': status.status === 'error',
+                                 'alert-warning': status.status === 'pending'
+                             }">
+                            <i class="fas" :class="getStatusIcon(status)"></i>
+                            <span class="ms-2">{{ status.balancer }}: {{ status.message }}</span>
+                        </div>
+                    </div>
+
+                    <div v-if="authenticationFailed" class="alert alert-danger mt-3">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span class="ms-2">Falha na autenticação. Por favor, tente novamente.</span>
+                        
+                        <button @click="resetAuthentication" 
+                                class="btn btn-outline-danger w-100 mt-2">
+                            <i class="fas fa-redo me-2"></i>
+                            Tentar Novamente
+                        </button>
+                    </div>
+
+                    <div v-if="globalError" class="alert alert-danger mt-3" role="alert">
+                        <i class="fas fa-exclamation-triangle"></i> {{ globalError }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts no final do body -->
+    <script>
+        const { createApp } = Vue;
+        const app = createApp({
+            data() {
+                return {
+                    accessType: 'full', // 'full' ou 'processing'
+                    credentials: {
+                        username: '',
+                        password: '',
+                        jenkins_user: '',
+                        jenkins_token: ''
+                    },
+                    isAuthenticating: false,
+                    authenticationStatus: [],
+                    authenticationFailed: false,
+                    globalError: null
+                }
+            },
+            computed: {
+                isFormValid() {
+                    if (this.accessType === 'full') {
+                        return this.credentials.username && 
+                               this.credentials.password && 
+                               this.credentials.jenkins_user && 
+                               this.credentials.jenkins_token;
+                    } else {
+                        return this.credentials.jenkins_user && 
+                               this.credentials.jenkins_token;
+                    }
+                }
+            },
+            methods: {
+                async authenticate() {
+                    this.isAuthenticating = true;
+                    this.authenticationStatus = [];
+                    this.authenticationFailed = false;
+                    this.globalError = null;
+                    try {
+                        // Monta payload conforme tipo de acesso
+                        let payload = {};
+                        if (this.accessType === 'full') {
+                            payload = { ...this.credentials, access_type: 'full' };
+                        } else {
+                            payload = {
+                                username: '', // Backend ignora
+                                password: '', // Backend ignora
+                                jenkins_user: this.credentials.jenkins_user,
+                                jenkins_token: this.credentials.jenkins_token,
+                                access_type: 'processing'
+                            };
+                        }
+                        const response = await axios.post('/auth/login', payload);
+                        if (response.data.success) {
+                            window.location.href = response.data.redirect || '/index';
+                        } else {
+                            this.authenticationFailed = true;
+                            this.authenticationStatus = response.data.balancerStatus || [];
+                            this.globalError = response.data.message || "Falha na autenticação";
+                        }
+                    } catch (error) {
+                        this.globalError = error.response?.data?.error || "Erro na autenticação";
+                        this.authenticationFailed = true;
+                    } finally {
+                        this.isAuthenticating = false;
+                    }
+                },
+                resetAuthentication() {
+                    this.isAuthenticating = false;
+                    this.authenticationStatus = [];
+                    this.authenticationFailed = false;
+                },
+                getStatusIcon(status) {
+                    return {
+                        'fa-check-circle': status.status === 'success',
+                        'fa-times-circle': status.status === 'error',
+                        'fa-spinner fa-spin': status.status === 'pending'
+                    }
+                }
+            }
+        });
+        
+        app.mount('#app');
+    </script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,923 @@
+2025-05-18 13:47 - Build iniciado para o código CTRP4115
+2025-05-18 13:48 - Build iniciado para o código CTRP4115
+2025-05-18 13:49 - Build iniciado para o código CTRP4115
+2025-05-18 13:51 - Exception in callback BaseProactorEventLoop._start_serving.<locals>.loop() at C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py:840
+handle: <Handle BaseProactorEventLoop._start_serving.<locals>.loop() at C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py:840>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 855, in loop
+    self._make_socket_transport(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        conn, protocol,
+        ^^^^^^^^^^^^^^^
+        extra={'peername': addr}, server=server)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 644, in _make_socket_transport
+    return _ProactorSocketTransport(self, sock, protocol, waiter,
+                                    extra, server)
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 610, in __init__
+    super().__init__(loop, sock, protocol, waiter, extra, server)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 189, in __init__
+    super().__init__(loop, sock, protocol, waiter, extra, server)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 335, in __init__
+    super().__init__(*args, **kw)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 66, in __init__
+    self._server._attach(self)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 297, in _attach
+    assert self._sockets is not None
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+2025-05-18 15:39 - Build iniciado para o código WASP357
+2025-05-18 15:42 - Build iniciado para o código WASP357
+2025-05-18 16:37 - Build iniciado para o código WASP707
+2025-05-18 16:49 - Build iniciado para o código WASP707
+2025-05-20 12:36 - Build iniciado para o código WASP357
+2025-05-22 07:13 - Build iniciado para o código WASP357
+2025-05-22 10:28 - Build iniciado para o código WASP369
+2025-05-22 10:32 - Build iniciado para o código WASP023
+2025-05-22 10:33 - Build iniciado para o código WASP022
+2025-05-22 10:40 - Build iniciado para o código CTRP1129
+2025-05-22 10:41 - Build iniciado para o código CTRP1129
+2025-05-22 10:42 - Build iniciado para o código CTRP1129
+2025-05-22 10:54 - Build iniciado para o código WASP003
+2025-05-22 10:55 - Build iniciado para o código WASP015
+2025-05-22 10:55 - Build iniciado para o código WASP016
+2025-05-22 10:55 - Build iniciado para o código WASP700
+2025-05-22 10:57 - Build iniciado para o código WASP875
+2025-05-22 11:34 - Build iniciado para o código WASP700
+2025-05-22 11:34 - Build iniciado para o código WASP371
+2025-05-22 11:35 - Build iniciado para o código WASP718
+2025-05-22 11:38 - Build iniciado para o código WASP022
+2025-05-22 11:39 - Build iniciado para o código WASP017
+2025-05-22 11:39 - Build iniciado para o código WASP874
+2025-05-22 11:39 - Build iniciado para o código WASP015
+2025-05-22 11:41 - Build iniciado para o código WASP016
+2025-05-22 12:12 - Build iniciado para o código WASP2094
+2025-05-22 12:42 - Build iniciado para o código WASP2105
+2025-05-22 12:43 - Build iniciado para o código WASP2431
+2025-05-22 12:44 - Build iniciado para o código WASP2435
+2025-05-22 16:13 - Build iniciado para o código WASP2094
+2025-05-22 16:13 - Build iniciado para o código WASP017
+2025-05-22 16:14 - Build iniciado para o código WASP875
+2025-05-24 07:10 - Build iniciado para o código WASP357
+2025-05-24 07:10 - Build iniciado para o código WASP269
+2025-06-01 09:57 - Build iniciado para o código WASP357
+2025-06-01 12:04 - Build iniciado para o código WASP4002
+2025-06-01 13:05 - Build iniciado para o código WASP2190
+2025-06-01 13:09 - Build iniciado para o código WASP2190
+2025-06-01 13:13 - Build iniciado para o código WASP2190
+2025-06-01 13:16 - Build iniciado para o código WASP2277
+2025-06-01 16:33 - Build iniciado para o código WASP357
+2025-06-01 16:59 - Build iniciado para o código WASP357
+2025-06-01 17:03 - Build iniciado para o código WASP357
+2025-06-01 17:09 - Build iniciado para o código WASP357
+2025-06-01 17:14 - Build iniciado para o código WASP357
+2025-06-01 17:16 - Build iniciado para o código WASP357
+2025-06-01 17:20 - Build iniciado para o código WASP357
+2025-06-01 17:20 - Build iniciado para o código WASP269
+2025-06-01 17:25 - Build iniciado para o código WASP357
+2025-06-01 17:29 - Build iniciado para o código WASP707
+2025-06-01 17:30 - Connected (version 2.0, client OpenSSH_7.2)
+2025-06-01 17:30 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-01 17:30 - Authentication (password) successful!
+2025-06-01 17:56 - Build iniciado para o código WASP357
+2025-06-01 17:56 - Build iniciado para o código WASP707
+2025-06-03 08:36 - Build iniciado para o código TRNP4400
+2025-06-03 08:38 - Build iniciado para o código TRNP2401
+2025-06-03 08:38 - Build iniciado para o código TRNP1402
+2025-06-03 08:41 - Build iniciado para o código TRNP2403
+2025-06-03 08:42 - Build iniciado para o código TRNP3400
+2025-06-03 08:42 - Build iniciado para o código TRNP4403
+2025-06-03 08:48 - Build iniciado para o código TRNP1403
+2025-06-03 09:02 - Build iniciado para o código WASP2105
+2025-06-03 09:02 - Build iniciado para o código WASP4269
+2025-06-03 09:04 - Build iniciado para o código WASP3067
+2025-06-03 09:04 - Build iniciado para o código WASP3029
+2025-06-03 09:08 - Build iniciado para o código WASP2441
+2025-06-03 09:08 - Build iniciado para o código WASP2470
+2025-06-03 09:09 - Build iniciado para o código WASP2466
+2025-06-03 09:23 - Build iniciado para o código WASP2258
+2025-06-03 09:25 - Build iniciado para o código WASP2263
+2025-06-03 09:30 - Build iniciado para o código WASP2105
+2025-06-03 09:31 - Build iniciado para o código WASP2259
+2025-06-03 09:32 - Build iniciado para o código WASP4204
+2025-06-03 09:37 - Build iniciado para o código WASP4208
+2025-06-03 09:37 - Build iniciado para o código WASP4209
+2025-06-03 09:41 - Build iniciado para o código WASP4126
+2025-06-03 09:41 - Build iniciado para o código WASP4123
+2025-06-03 09:44 - Build iniciado para o código WASP856
+2025-06-03 09:45 - Build iniciado para o código WASP2155
+2025-06-03 09:47 - Build iniciado para o código WASP291
+2025-06-03 09:49 - Build iniciado para o código TRNP4502
+2025-06-03 10:00 - Build iniciado para o código WASP291
+2025-06-03 10:11 - Build iniciado para o código WASP3031
+2025-06-03 10:12 - Build iniciado para o código WASP4017
+2025-06-03 10:12 - Build iniciado para o código WASP2346
+2025-06-03 10:12 - Build iniciado para o código WASP2435
+2025-06-03 10:35 - Build iniciado para o código WASP052
+2025-06-03 10:49 - Build iniciado para o código WASP053
+2025-06-03 10:50 - Build iniciado para o código WASP2281
+2025-06-03 10:52 - Build iniciado para o código WASP054
+2025-06-03 10:53 - Build iniciado para o código WASP2280
+2025-06-03 10:55 - Build iniciado para o código WASP4047
+2025-06-03 10:55 - Build iniciado para o código WASP3077
+2025-06-03 10:57 - Build iniciado para o código WASP3076
+2025-06-03 11:00 - Build iniciado para o código WASP4219
+2025-06-03 11:09 - Build iniciado para o código CTRP1128
+2025-06-03 11:11 - Build iniciado para o código CTRP1128
+2025-06-03 11:11 - Build iniciado para o código CTRP1128
+2025-06-03 11:22 - Build iniciado para o código WASP053
+2025-06-03 11:22 - Build iniciado para o código TRNP4104
+2025-06-03 11:23 - Build iniciado para o código TRNP4107
+2025-06-03 11:24 - Build iniciado para o código WASP054
+2025-06-03 11:24 - Build iniciado para o código WASP2280
+2025-06-03 11:25 - Build iniciado para o código WASP2281
+2025-06-03 11:30 - Build iniciado para o código WASP4047
+2025-06-03 11:30 - Build iniciado para o código WASP4219
+2025-06-03 11:31 - Build iniciado para o código WASP4220
+2025-06-03 11:33 - Build iniciado para o código WASP3077
+2025-06-03 11:34 - Build iniciado para o código WASP3077
+2025-06-03 11:35 - Build iniciado para o código WASP3076
+2025-06-03 11:45 - Build iniciado para o código WASP3077
+2025-06-03 11:59 - Build iniciado para o código WASP039
+2025-06-03 12:00 - Build iniciado para o código WASP049
+2025-06-03 12:16 - Build iniciado para o código WASP049
+2025-06-03 12:20 - Build iniciado para o código WASP383
+2025-06-03 12:23 - Build iniciado para o código CTRP3101
+2025-06-03 12:25 - Build iniciado para o código CTRP3101
+2025-06-03 12:26 - Build iniciado para o código CTRP3101
+2025-06-03 12:26 - Build iniciado para o código CTRP2121
+2025-06-03 12:28 - Build iniciado para o código CTRP2121
+2025-06-03 12:29 - Build iniciado para o código CTRP2121
+2025-06-03 12:36 - Build iniciado para o código CTRP1129
+2025-06-03 12:36 - Build iniciado para o código CTRP1130
+2025-06-03 12:37 - Build iniciado para o código CTRP1122
+2025-06-03 12:37 - Build iniciado para o código CTRP1151
+2025-06-03 12:37 - Build iniciado para o código CTRP1129
+2025-06-03 12:37 - Build iniciado para o código CTRP1130
+2025-06-03 12:38 - Build iniciado para o código CTRP1129
+2025-06-03 12:38 - Build iniciado para o código CTRP1151
+2025-06-03 12:38 - Build iniciado para o código CTRP1122
+2025-06-03 12:38 - Build iniciado para o código CTRP1130
+2025-06-03 12:39 - Build iniciado para o código CTRP1151
+2025-06-03 12:39 - Build iniciado para o código CTRP1122
+2025-06-03 12:47 - Build iniciado para o código CTRP1148
+2025-06-03 12:48 - Build iniciado para o código CTRP1148
+2025-06-03 12:49 - Build iniciado para o código CTRP1147
+2025-06-03 12:49 - Build iniciado para o código CTRP1148
+2025-06-03 12:50 - Build iniciado para o código CTRP1147
+2025-06-03 12:51 - Build iniciado para o código CTRP1147
+2025-06-03 12:54 - Build iniciado para o código CTRP1132
+2025-06-03 12:55 - Build iniciado para o código CTRP1122
+2025-06-03 12:56 - Build iniciado para o código CTRP1151
+2025-06-03 12:56 - Build iniciado para o código CTRP1132
+2025-06-03 12:56 - Build iniciado para o código WASP016
+2025-06-03 12:56 - Build iniciado para o código CTRP1122
+2025-06-03 12:57 - Build iniciado para o código CTRP1132
+2025-06-03 12:57 - Build iniciado para o código WASP015
+2025-06-03 12:57 - Build iniciado para o código CTRP1151
+2025-06-03 12:57 - Build iniciado para o código CTRP1122
+2025-06-03 12:57 - Build iniciado para o código CTRP1151
+2025-06-03 13:03 - Build iniciado para o código CTRP1151
+2025-06-03 13:04 - Build iniciado para o código CTRP1151
+2025-06-03 13:05 - Build iniciado para o código CTRP1151
+2025-06-03 13:08 - Build iniciado para o código CTRP1128
+2025-06-03 13:09 - Build iniciado para o código CTRP1127
+2025-06-03 13:10 - Build iniciado para o código CTRP1127
+2025-06-03 13:10 - Build iniciado para o código CTRP1128
+2025-06-03 13:11 - Build iniciado para o código CTRP2104
+2025-06-03 13:12 - Build iniciado para o código CTRP1127
+2025-06-03 13:12 - Build iniciado para o código CTRP1128
+2025-06-03 13:12 - Build iniciado para o código CTRP2104
+2025-06-03 13:13 - Build iniciado para o código CTRP4101
+2025-06-03 13:13 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-03 13:13 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-03 13:13 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-03 13:13 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-03 13:13 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-03 13:13 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-03 13:13 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-03 13:13 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-03 13:13 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-03 13:13 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-03 13:13 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-03 13:13 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-03 13:13 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-03 13:13 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-03 13:14 - Build iniciado para o código CTRP2104
+2025-06-03 13:15 - Build iniciado para o código CTRP4101
+2025-06-03 13:16 - Build iniciado para o código CTRP4101
+2025-06-03 13:21 - Build iniciado para o código CTRP2211
+2025-06-03 13:21 - Build iniciado para o código CTRP1217
+2025-06-03 13:22 - Build iniciado para o código CTRP1217
+2025-06-03 13:22 - Build iniciado para o código CTRP2211
+2025-06-03 13:23 - Build iniciado para o código CTRP1217
+2025-06-03 13:23 - Build iniciado para o código CTRP2211
+2025-06-03 13:24 - Build iniciado para o código CTRP4122
+2025-06-03 13:24 - Build iniciado para o código CTRP1127
+2025-06-03 13:25 - Build iniciado para o código CTRP4122
+2025-06-03 13:25 - Build iniciado para o código CTRP4122
+2025-06-03 13:25 - Build iniciado para o código CTRP1127
+2025-06-03 13:26 - Build iniciado para o código CTRP1127
+2025-06-03 13:32 - Build iniciado para o código CTRP4113
+2025-06-03 13:32 - Build iniciado para o código CTRP4109
+2025-06-03 13:32 - Build iniciado para o código CTRP4118
+2025-06-03 13:33 - Build iniciado para o código CTRP4113
+2025-06-03 13:33 - Build iniciado para o código CTRP4109
+2025-06-03 13:33 - Build iniciado para o código CTRP4118
+2025-06-03 13:33 - Build iniciado para o código CTRP4113
+2025-06-03 13:34 - Build iniciado para o código CTRP4109
+2025-06-03 13:34 - Build iniciado para o código CTRP4118
+2025-06-03 14:58 - Build iniciado para o código WASP269
+2025-06-03 14:58 - Build iniciado para o código WASP2237
+2025-06-03 14:58 - Build iniciado para o código WASP4273
+2025-06-03 15:08 - Build iniciado para o código WASP3011
+2025-06-03 15:12 - Build iniciado para o código WASP718
+2025-06-03 15:15 - Build iniciado para o código WASP3009
+2025-06-03 15:15 - Build iniciado para o código WASP3010
+2025-06-03 15:15 - Build iniciado para o código WASP331
+2025-06-03 15:31 - Build iniciado para o código WASP2306
+2025-06-03 15:34 - Build iniciado para o código WASP2172
+2025-06-03 15:34 - Build iniciado para o código WASP2173
+2025-06-03 15:35 - Build iniciado para o código WASP2307
+2025-06-03 15:36 - Build iniciado para o código WASP4302
+2025-06-03 15:37 - Build iniciado para o código WASP4060
+2025-06-03 15:39 - Build iniciado para o código WASP4242
+2025-06-03 15:46 - Build iniciado para o código WASP2105
+2025-06-03 16:03 - Build iniciado para o código WASP4017
+2025-06-03 16:05 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-03 16:05 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-03 16:05 - Authentication (password) successful!
+2025-06-03 16:08 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-03 16:08 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-03 16:08 - Authentication (password) successful!
+2025-06-03 16:10 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-03 16:10 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-03 16:10 - Authentication (password) successful!
+2025-06-03 16:10 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-03 16:10 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-03 16:10 - Authentication (password) successful!
+2025-06-03 16:17 - Build iniciado para o código WASP2427
+2025-06-03 16:21 - Build iniciado para o código CTRP2201
+2025-06-03 16:21 - Build iniciado para o código WASP2439
+2025-06-03 16:22 - Build iniciado para o código CTRP2201
+2025-06-03 16:23 - Build iniciado para o código CTRP2201
+2025-06-03 16:27 - Build iniciado para o código WASP875
+2025-06-03 16:27 - Build iniciado para o código WASP370
+2025-06-03 16:34 - Build iniciado para o código WASP2094
+2025-06-03 16:35 - Build iniciado para o código WASP875
+2025-06-03 16:37 - Build iniciado para o código WASP876
+2025-06-03 17:07 - Build iniciado para o código WASP041
+2025-06-03 17:07 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-03 17:08 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-03 17:08 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-03 17:08 - Authentication (password) successful!
+2025-06-03 17:08 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-03 17:08 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-03 17:08 - Authentication (password) successful!
+2025-06-03 17:09 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-03 17:09 - Auth banner: b'\n\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-03 17:09 - Authentication (password) successful!
+2025-06-03 17:10 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-03 17:10 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-03 17:10 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-03 17:10 - Authentication (password) successful!
+2025-06-03 17:10 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-03 17:10 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-03 17:10 - Authentication (password) successful!
+2025-06-03 17:16 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-03 17:16 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-03 17:16 - Authentication (password) successful!
+2025-06-03 17:16 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-03 17:16 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-03 17:16 - Authentication (password) successful!
+2025-06-03 17:23 - Build iniciado para o código CTRP2114
+2025-06-03 17:23 - Build iniciado para o código CTRP2115
+2025-06-03 17:23 - Build iniciado para o código WASP720
+2025-06-03 17:24 - Build iniciado para o código CTRP2114
+2025-06-03 17:25 - Build iniciado para o código CTRP2115
+2025-06-03 17:25 - Build iniciado para o código CTRP2114
+2025-06-03 17:25 - Build iniciado para o código CTRP2115
+2025-06-03 17:59 - Build iniciado para o código CTRP3106
+2025-06-03 18:01 - Build iniciado para o código CTRP3106
+2025-06-03 18:01 - Build iniciado para o código CTRP3106
+2025-06-03 18:02 - Build iniciado para o código WASP4079
+2025-06-03 18:59 - Build iniciado para o código TRNP4815
+2025-06-05 08:14 - Build iniciado para o código WASP2474
+2025-06-05 08:56 - Build iniciado para o código WASP297
+2025-06-05 08:56 - Connected (version 2.0, client OpenSSH_7.2)
+2025-06-05 08:56 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 08:56 - Authentication (password) successful!
+2025-06-05 08:56 - Build iniciado para o código WASP1176
+2025-06-05 08:57 - Build iniciado para o código WASP1178
+2025-06-05 08:57 - Connected (version 2.0, client OpenSSH_7.2)
+2025-06-05 08:57 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 08:57 - Authentication (password) successful!
+2025-06-05 08:58 - Build iniciado para o código WASP2480
+2025-06-05 08:59 - Build iniciado para o código WASP4269
+2025-06-05 08:59 - Build iniciado para o código WASP1180
+2025-06-05 09:01 - Build iniciado para o código WASP2121
+2025-06-05 09:02 - Build iniciado para o código WASP273
+2025-06-05 09:05 - Build iniciado para o código WASP2472
+2025-06-05 09:05 - Build iniciado para o código WASP4253
+2025-06-05 09:06 - Build iniciado para o código WASP720
+2025-06-05 09:15 - Build iniciado para o código WASP2237
+2025-06-05 09:15 - Build iniciado para o código WASP4273
+2025-06-05 09:16 - Build iniciado para o código WASP4274
+2025-06-05 09:22 - Connected (version 2.0, client OpenSSH_7.2)
+2025-06-05 09:22 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 09:22 - Authentication (password) successful!
+2025-06-05 09:22 - Connected (version 2.0, client OpenSSH_7.2)
+2025-06-05 09:22 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 09:22 - Authentication (password) successful!
+2025-06-05 09:23 - Build iniciado para o código WASP718
+2025-06-05 09:26 - Build iniciado para o código WASP703
+2025-06-05 09:29 - Build iniciado para o código TRNP4813
+2025-06-05 09:31 - Build iniciado para o código WASP1176
+2025-06-05 09:33 - Build iniciado para o código WASP2472
+2025-06-05 09:35 - Build iniciado para o código WASP2209
+2025-06-05 09:36 - Build iniciado para o código WASP703
+2025-06-05 09:36 - Build iniciado para o código WASP314
+2025-06-05 09:40 - Build iniciado para o código WASP4290
+2025-06-05 09:43 - Build iniciado para o código WASP4137
+2025-06-05 09:44 - Build iniciado para o código WASP4143
+2025-06-05 09:45 - Build iniciado para o código WASP2378
+2025-06-05 09:46 - Build iniciado para o código WASP2374
+2025-06-05 09:52 - Build iniciado para o código WASP2212
+2025-06-05 09:52 - Build iniciado para o código WASP4166
+2025-06-05 09:59 - Build iniciado para o código TRNP4501
+2025-06-05 10:00 - Build iniciado para o código WASP2204
+2025-06-05 10:00 - Build iniciado para o código WASP2347
+2025-06-05 10:00 - Build iniciado para o código WASP2361
+2025-06-05 10:00 - Build iniciado para o código WASP4131
+2025-06-05 10:01 - Build iniciado para o código WASP4153
+2025-06-05 10:04 - Build iniciado para o código WASP015
+2025-06-05 10:04 - Build iniciado para o código WASP4158
+2025-06-05 10:05 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-05 10:05 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 10:05 - Authentication (password) successful!
+2025-06-05 10:06 - Build iniciado para o código WASP2386
+2025-06-05 10:08 - Build iniciado para o código WASP2211
+2025-06-05 10:08 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-05 10:08 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 10:08 - Authentication (password) failed.
+2025-06-05 10:08 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-05 10:08 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 10:08 - Authentication (password) failed.
+2025-06-05 10:09 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-05 10:09 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 10:09 - Authentication (password) successful!
+2025-06-05 10:09 - Build iniciado para o código WASP2390
+2025-06-05 10:12 - Build iniciado para o código WASP4165
+2025-06-05 10:14 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-05 10:14 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 10:14 - Authentication (password) successful!
+2025-06-05 10:14 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-05 10:14 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 10:14 - Authentication (password) successful!
+2025-06-05 10:16 - Build iniciado para o código WASP2367
+2025-06-05 10:17 - Build iniciado para o código WASP4158
+2025-06-05 10:17 - Build iniciado para o código WASP2217
+2025-06-05 10:17 - Build iniciado para o código WASP2218
+2025-06-05 10:18 - Build iniciado para o código WASP4164
+2025-06-05 10:18 - Build iniciado para o código WASP2200
+2025-06-05 10:19 - Build iniciado para o código CTRP3101
+2025-06-05 10:20 - Build iniciado para o código WASP4134
+2025-06-05 10:20 - Build iniciado para o código CTRP3101
+2025-06-05 10:20 - Build iniciado para o código WASP2219
+2025-06-05 10:20 - Build iniciado para o código WASP2365
+2025-06-05 10:21 - Build iniciado para o código CTRP3101
+2025-06-05 10:30 - Build iniciado para o código WASP4025
+2025-06-05 10:30 - Build iniciado para o código WASP4079
+2025-06-05 10:30 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-05 10:30 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-05 10:31 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 10:31 - Authentication (password) successful!
+2025-06-05 10:31 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-05 10:31 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-05 10:31 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 10:31 - Authentication (password) successful!
+2025-06-05 10:31 - Build iniciado para o código WASP371
+2025-06-05 10:31 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-05 10:31 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 10:31 - Authentication (password) successful!
+2025-06-05 10:31 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-05 10:32 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-05 10:32 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 10:32 - Authentication (password) successful!
+2025-06-05 10:32 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-05 10:32 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 10:32 - Authentication (password) successful!
+2025-06-05 10:37 - Build iniciado para o código WASP4163
+2025-06-05 10:37 - Build iniciado para o código WASP4138
+2025-06-05 10:37 - Build iniciado para o código WASP4135
+2025-06-05 10:38 - Build iniciado para o código WASP4161
+2025-06-05 10:38 - Build iniciado para o código WASP2396
+2025-06-05 10:42 - Build iniciado para o código CTRP3101
+2025-06-05 10:42 - Build iniciado para o código WASP2208
+2025-06-05 10:42 - Build iniciado para o código WASP2208
+2025-06-05 10:42 - Build iniciado para o código WASP4149
+2025-06-05 10:42 - Build iniciado para o código WASP4149
+2025-06-05 10:43 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-05 10:43 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 10:43 - Authentication (password) successful!
+2025-06-05 10:44 - Build iniciado para o código CTRP3101
+2025-06-05 10:45 - Build iniciado para o código CTRP3101
+2025-06-05 10:48 - Build iniciado para o código WASP2208
+2025-06-05 10:49 - Build iniciado para o código WASP2435
+2025-06-05 10:49 - Build iniciado para o código WASP4149
+2025-06-05 10:49 - Build iniciado para o código WASP2345
+2025-06-05 10:50 - Build iniciado para o código WASP2095
+2025-06-05 10:51 - Build iniciado para o código WASP2388
+2025-06-05 10:51 - Build iniciado para o código WASP700
+2025-06-05 11:07 - Build iniciado para o código WASP4092
+2025-06-05 11:09 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-05 11:09 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 11:09 - Authentication (password) successful!
+2025-06-05 11:10 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-05 11:10 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 11:10 - Authentication (password) successful!
+2025-06-05 11:11 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-05 11:11 - Build iniciado para o código WASP4315
+2025-06-05 11:13 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-05 11:13 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-05 11:13 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-05 11:13 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-05 11:14 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-05 11:14 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-05 11:14 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-05 11:14 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-05 11:14 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-05 11:14 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-05 11:14 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-05 11:14 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-05 11:14 - Connected (version 2.0, client OpenSSH_7.2)
+2025-06-05 11:14 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 11:14 - Authentication (password) successful!
+2025-06-05 11:14 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-05 11:14 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-05 11:16 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-05 11:16 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\diogo.soares\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Foi forçado o cancelamento de uma conexão existente pelo host remoto
+2025-06-05 11:22 - Build iniciado para o código WASP2376
+2025-06-05 11:26 - Build iniciado para o código WASP702
+2025-06-05 11:30 - Build iniciado para o código WASP860
+2025-06-05 11:41 - Build iniciado para o código WASP860
+2025-06-05 11:46 - Connected (version 2.0, client OpenSSH_9.6)
+2025-06-05 11:46 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 11:46 - Authentication (password) successful!
+2025-06-05 11:47 - Build iniciado para o código CTRP4204
+2025-06-05 11:48 - Build iniciado para o código CTRP4204
+2025-06-05 11:49 - Build iniciado para o código WASP2237
+2025-06-05 11:49 - Build iniciado para o código WASP2255
+2025-06-05 11:49 - Build iniciado para o código WASP2437
+2025-06-05 11:49 - Build iniciado para o código CTRP4204
+2025-06-05 11:50 - Build iniciado para o código WASP4201
+2025-06-05 11:51 - Build iniciado para o código WASP4221
+2025-06-05 11:52 - Build iniciado para o código WASP305
+2025-06-05 11:58 - Build iniciado para o código WASP2437
+2025-06-05 12:08 - Build iniciado para o código WASP2237
+2025-06-05 12:09 - Build iniciado para o código WASP2105
+2025-06-05 12:09 - Build iniciado para o código WASP2433
+2025-06-05 12:09 - Build iniciado para o código WASP371
+2025-06-05 12:09 - Build iniciado para o código WASP4025
+2025-06-05 12:09 - Build iniciado para o código WASP4273
+2025-06-05 12:10 - Build iniciado para o código WASP702
+2025-06-05 12:11 - Build iniciado para o código WASP874
+2025-06-05 12:14 - Build iniciado para o código TRNP4817
+2025-06-05 12:28 - Build iniciado para o código WASP2346
+2025-06-05 12:28 - Build iniciado para o código WASP063
+2025-06-05 12:30 - Build iniciado para o código WASP4025
+2025-06-05 12:30 - Build iniciado para o código WASP703
+2025-06-05 12:30 - Build iniciado para o código WASP2105
+2025-06-05 12:34 - Build iniciado para o código WASP717
+2025-06-05 12:34 - Build iniciado para o código WASP1178
+2025-06-05 12:34 - Build iniciado para o código WASP875
+2025-06-05 12:35 - Build iniciado para o código WASP3068
+2025-06-05 12:38 - Build iniciado para o código WASP720
+2025-06-05 12:38 - Build iniciado para o código WASP2480
+2025-06-05 12:38 - Build iniciado para o código WASP2480
+2025-06-05 12:40 - Build iniciado para o código WASP023
+2025-06-05 12:45 - Build iniciado para o código WASP297
+2025-06-05 12:46 - Build iniciado para o código WASP3020
+2025-06-05 12:46 - Build iniciado para o código WASP2477
+2025-06-05 12:55 - Build iniciado para o código WASP1176
+2025-06-05 12:57 - Build iniciado para o código WASP2047
+2025-06-05 12:57 - Build iniciado para o código WASP3020
+2025-06-05 12:59 - Build iniciado para o código WASP720
+2025-06-05 13:00 - Build iniciado para o código WASP4254
+2025-06-05 13:06 - Build iniciado para o código CTRP3108
+2025-06-05 13:07 - Build iniciado para o código CTRP3108
+2025-06-05 13:08 - Build iniciado para o código CTRP3108
+2025-06-05 14:37 - Build iniciado para o código WASP2013
+2025-06-05 14:37 - Build iniciado para o código TRNP2502
+2025-06-05 14:41 - Build iniciado para o código WASP2014
+2025-06-05 14:42 - Build iniciado para o código TRNP4500
+2025-06-05 14:45 - Build iniciado para o código WASP4057
+2025-06-05 14:48 - Build iniciado para o código WASP1176
+2025-06-05 14:48 - Build iniciado para o código WASP2284
+2025-06-05 14:51 - Build iniciado para o código WASP700
+2025-06-05 14:59 - Build iniciado para o código WASP703
+2025-06-05 15:00 - Build iniciado para o código WASP1176
+2025-06-05 15:01 - Build iniciado para o código WASP860
+2025-06-05 15:08 - Build iniciado para o código WASP702
+2025-06-05 15:15 - Build iniciado para o código WASP718
+2025-06-05 15:34 - Build iniciado para o código WASP022
+2025-06-05 15:44 - Build iniciado para o código CTRP1225
+2025-06-05 15:46 - Build iniciado para o código CTRP1225
+2025-06-05 15:47 - Build iniciado para o código CTRP1225
+2025-06-05 16:29 - Build iniciado para o código WASP4141
+2025-06-05 16:46 - Build iniciado para o código CTRP3208
+2025-06-05 16:48 - Build iniciado para o código CTRP3208
+2025-06-05 16:48 - Build iniciado para o código CTRP3208
+2025-06-05 17:50 - Build iniciado para o código WASP2208
+2025-06-05 18:14 - Connected (version 2.0, client OpenSSH_7.2)
+2025-06-05 18:14 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 18:14 - Authentication (password) failed.
+2025-06-05 18:17 - Connected (version 2.0, client OpenSSH_7.2)
+2025-06-05 18:17 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 18:17 - Authentication (password) successful!
+2025-06-05 18:17 - Connected (version 2.0, client OpenSSH_7.2)
+2025-06-05 18:17 - Auth banner: b'\t ==============================================================================\n\n\t      SSSSSSSSSSSSSSSSS\n\t       SSSSSSS SSSSSSS\n\t        SSSSS   SSSSS  SSSSS  SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t         SSS     SSS   SS     SSS SSS     SS   SS SS   SS  SSS  SS\n\t          SSSSSSSSS     SSSS  SSS SSS     SS   SS SS   SS  SSSSSS\n\t           SSSSSSS         SS SSS SSS     SS   SS SS   SS  SSS  SS\n\t            SSSSS      SSSSSS SSS  SSSSSS SSSSSSS SSSSSSS  SSSSSSS\n\t             SSS\n\t              S\n\t ===============================================================================\n\t      -----------------------------A T E N C A O----------------------------\n\t      => ACESSO PERMITIDO SOMENTE A PESSOAS AUTORIZADAS!\n\t      => CASO NAO TENHA AUTORIZACAO FACA LOGOUT AGORA!\n\t      => TODAS AS ACOES PODEM SER MONITORADAS!\n\t      => AO ACESSAR ESTE EQUIPAMENTO VOCE ESTA CONCORDANDO COM O PROCESSO\n\t         DE MONITORACAO E ESTA SUJEITO AS SANCOES LEGAIS APLICAVEIS!\n\t ==============================================================================\n\n'
+2025-06-05 18:17 - Authentication (password) successful!
+2025-06-05 18:18 - Build iniciado para o código WASP4025
+2025-06-07 07:55 - Build iniciado para o código CTRP1129
+2025-06-07 07:55 - Build iniciado para o código CTRP3108
+2025-06-07 07:55 - Build iniciado para o código CTRP2112
+2025-06-07 07:55 - Build iniciado para o código CTRP1154
+2025-06-07 07:56 - Build iniciado para o código CTRP1129
+2025-06-07 07:56 - Build iniciado para o código CTRP3108
+2025-06-07 07:56 - Build iniciado para o código CTRP2112
+2025-06-07 07:56 - Build iniciado para o código CTRP1129
+2025-06-07 07:57 - Build iniciado para o código CTRP1154
+2025-06-07 07:57 - Build iniciado para o código CTRP3108
+2025-06-07 07:58 - Build iniciado para o código CTRP1154
+2025-06-07 07:58 - Build iniciado para o código CTRP2112
+2025-06-07 08:00 - Build iniciado para o código CTRP4110
+2025-06-07 08:00 - Build iniciado para o código CTRP4109
+2025-06-07 08:00 - Build iniciado para o código CTRP4111
+2025-06-07 08:00 - Build iniciado para o código CTRP4101
+2025-06-07 08:00 - Build iniciado para o código CTRP4102
+2025-06-07 08:00 - Build iniciado para o código CTRP4103
+2025-06-07 08:01 - Build iniciado para o código CTRP4110
+2025-06-07 08:01 - Build iniciado para o código CTRP4109
+2025-06-07 08:01 - Build iniciado para o código CTRP4111
+2025-06-07 08:01 - Build iniciado para o código CTRP4110
+2025-06-07 08:02 - Build iniciado para o código CTRP4101
+2025-06-07 08:02 - Build iniciado para o código CTRP4102
+2025-06-07 08:02 - Build iniciado para o código CTRP4109
+2025-06-07 08:02 - Build iniciado para o código CTRP4103
+2025-06-07 08:02 - Build iniciado para o código CTRP4111
+2025-06-07 08:02 - Build iniciado para o código CTRP4101
+2025-06-07 08:02 - Build iniciado para o código CTRP4102
+2025-06-07 08:03 - Build iniciado para o código CTRP4103
+2025-06-07 08:04 - Build iniciado para o código CTRP4104
+2025-06-07 08:04 - Build iniciado para o código CTRP4105
+2025-06-07 08:05 - Build iniciado para o código CTRP4106
+2025-06-07 08:05 - Build iniciado para o código CTRP4100
+2025-06-07 08:05 - Build iniciado para o código CTRP4107
+2025-06-07 08:05 - Build iniciado para o código CTRP4108
+2025-06-07 08:05 - Build iniciado para o código CTRP4104
+2025-06-07 08:05 - Build iniciado para o código CTRP4105
+2025-06-07 08:06 - Build iniciado para o código CTRP4104
+2025-06-07 08:06 - Build iniciado para o código CTRP4100
+2025-06-07 08:06 - Build iniciado para o código CTRP4106
+2025-06-07 08:06 - Build iniciado para o código CTRP4108
+2025-06-07 08:06 - Build iniciado para o código CTRP4107
+2025-06-07 08:07 - Build iniciado para o código CTRP4105
+2025-06-07 08:07 - Build iniciado para o código CTRP4100
+2025-06-07 08:07 - Build iniciado para o código CTRP4108
+2025-06-07 08:07 - Build iniciado para o código CTRP4106
+2025-06-07 08:07 - Build iniciado para o código CTRP4107
+2025-06-07 08:56 - Build iniciado para o código CTRP2117
+2025-06-07 08:57 - Build iniciado para o código CTRP2113
+2025-06-07 08:57 - Build iniciado para o código CTRP2116
+2025-06-07 08:57 - Build iniciado para o código CTRP2112
+2025-06-07 08:57 - Build iniciado para o código CTRP2115
+2025-06-07 08:57 - Build iniciado para o código CTRP2114
+2025-06-07 08:58 - Build iniciado para o código CTRP2117
+2025-06-07 08:58 - Build iniciado para o código CTRP2113
+2025-06-07 08:58 - Build iniciado para o código CTRP2112
+2025-06-07 08:58 - Build iniciado para o código CTRP2116
+2025-06-07 08:58 - Build iniciado para o código CTRP2113
+2025-06-07 08:58 - Build iniciado para o código CTRP2115
+2025-06-07 08:59 - Build iniciado para o código CTRP2114
+2025-06-07 08:59 - Build iniciado para o código CTRP2117
+2025-06-07 08:59 - Build iniciado para o código CTRP2112
+2025-06-07 08:59 - Build iniciado para o código CTRP2115
+2025-06-07 08:59 - Build iniciado para o código CTRP2116
+2025-06-07 08:59 - Build iniciado para o código CTRP2114
+2025-06-07 09:00 - Build iniciado para o código CTRP2112
+2025-06-07 09:01 - Build iniciado para o código CTRP2111
+2025-06-07 09:01 - Build iniciado para o código CTRP2110
+2025-06-07 09:01 - Build iniciado para o código CTRP2118
+2025-06-07 09:01 - Build iniciado para o código CTRP2112
+2025-06-07 09:01 - Build iniciado para o código CTRP2106
+2025-06-07 09:02 - Build iniciado para o código CTRP2111
+2025-06-07 09:02 - Build iniciado para o código CTRP2110
+2025-06-07 09:02 - Build iniciado para o código CTRP2112
+2025-06-07 09:02 - Build iniciado para o código CTRP2105
+2025-06-07 09:03 - Build iniciado para o código CTRP2111
+2025-06-07 09:03 - Build iniciado para o código CTRP2106
+2025-06-07 09:03 - Build iniciado para o código CTRP2118
+2025-06-07 09:03 - Build iniciado para o código CTRP2110
+2025-06-07 09:03 - Build iniciado para o código CTRP2106
+2025-06-07 09:03 - Build iniciado para o código CTRP2118
+2025-06-07 09:04 - Build iniciado para o código CTRP2105
+2025-06-07 09:05 - Build iniciado para o código CTRP2105
+2025-06-07 09:12 - Build iniciado para o código CTRP2104
+2025-06-07 09:13 - Build iniciado para o código CTRP2104
+2025-06-07 09:15 - Build iniciado para o código CTRP2104
+2025-06-07 11:18 - Build iniciado para o código CTRP1126
+2025-06-07 11:21 - Build iniciado para o código CTRP1126
+2025-06-07 11:22 - Build iniciado para o código CTRP1126
+2025-06-07 11:23 - Build iniciado para o código CTRP1126
+2025-06-07 11:36 - Build iniciado para o código CTRP2210
+2025-06-07 11:37 - Build iniciado para o código WASP4079
+2025-06-07 11:38 - Build iniciado para o código CTRP2210
+2025-06-07 11:38 - Build iniciado para o código CTRP2210
+2025-06-07 11:43 - Build iniciado para o código TRNP4501

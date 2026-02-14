@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restart de Processamento - F5 Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/sicoob-theme.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="app" class="app-wrapper">
+        <!-- Barra Lateral -->
+        <nav class="sidebar">
+            <div class="sidebar-header text-center">
+                <img src="/assets/img/logo-sicoob.png" alt="Sicoob" class="sidebar-logo">
+                <h4 class="mb-0">F5 Manager</h4>
+            </div>
+            <ul class="sidebar-menu">
+                <!-- Mostrar apenas o item de processamento para acesso restrito -->
+                <li v-if="accessType === 'processing'">
+                    <a href="/processamento-page" class="active">
+                        <i class="fas fa-cogs"></i><span>Restart de Processamento</span>
+                    </a>
+                </li>
+                <!-- Mostrar todos os itens para acesso completo -->
+                <template v-else>
+                    <li><a href="/index"><i class="fas fa-server"></i><span>Consulta de Nodes</span></a></li>
+                    <li><a href="/pools-page"><i class="fas fa-layer-group"></i><span>Consulta de Pools</span></a></li>
+                    <li><a href="/processamento-page" class="active"><i class="fas fa-cogs"></i><span>Restart de Processamento</span></a></li>
+                    <li><a href="/monitoracao-page"><i class="fas fa-chart-bar"></i><span>Monitoramento</span></a></li>
+                </template>
+            </ul>
+        </nav>
+
+        <!-- Barra de Navegação Superior -->
+        <nav class="navbar navbar-expand navbar-light bg-white shadow-sm" style="position:fixed; left:var(--sidebar-width); right:0; top:0; z-index:1200; height:64px; padding:0 1.5rem;">
+            <div class="container-fluid d-flex align-items-center justify-content-end" style="height:64px;">
+                <div class="d-flex align-items-center user-navbar-area">
+                    <div class="user-avatar me-2"><i class="fas fa-user"></i></div>
+                    <div class="user-details me-2">
+                        <strong class="d-block">{{ username }}</strong>
+                        <small class="text-muted">Usuário F5</small>
+                    </div>
+                    <button @click="logout" class="logout-btn ms-2" title="Sair"><i class="fas fa-sign-out-alt"></i></button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Conteúdo da Página -->
+        <main class="main-content" style="padding-top:84px;">
+            <div class="content-wrapper">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8 col-md-10">
+                            <div class="sicoob-card">
+                                <div class="card-header">
+                                    <h4 class="sicoob-title mb-0">Processamento de Cluster</h4>
+                                </div>
+                                <div class="card-body">
+                                    <p>
+                                        Esta tela é exclusiva para <strong>Processamento</strong>.<br>
+                                        Selecione um cluster para iniciar a sequência automática de processamento:<br>
+                                        <strong>Stop Websphere → Restart SWS → Restart Websphere</strong>.<br>
+                                        <span class="text-muted">O início sempre será pelo processamento.</span>
+                                    </p>
+                                    
+                                    <div v-if="isLoading" class="text-center my-3">
+                                        <i class="fas fa-spinner fa-spin fa-2x"></i><p class="mt-2">Carregando clusters...</p>
+                                    </div>
+
+                                    <div v-if="globalError" class="alert alert-danger">{{ globalError }}</div>
+
+                                    <div v-if="!isLoading && !globalError">
+                                        <div class="mb-3">
+                                            <label for="clusterSearch" class="form-label">Pesquisar Cluster</label>
+                                            <input type="search" id="clusterSearch" class="form-control sicoob-input" placeholder="Digite para filtrar..." v-model="clusterSearch">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="clusterSelect" class="form-label">Cluster de Processamento</label>
+                                            <select class="form-select sicoob-input" id="clusterSelect" v-model="selectedCluster" :disabled="isProcessRunning" @change="fetchMachinesForCluster">
+                                                <option disabled value="">-- Selecione um Cluster --</option>
+                                                <option v-for="cluster in filteredClusters" :key="cluster" :value="cluster">{{ cluster }}</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Container para a Lista de Máquinas -->
+                                        <div v-if="machines.length > 0" id="machine-list-container" class="mt-3 mb-3 p-3 border rounded">
+                                            <h6 class="mb-2">Selecione as Máquinas</h6>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" v-model="selectAllMachines" id="selectAllCheck">
+                                                <label class="form-check-label" for="selectAllCheck">
+                                                    <strong>Selecionar Todas</strong>
+                                                </label>
+                                            </div>
+                                            <hr>
+                                            <div v-for="machine in machines" :key="machine" class="form-check">
+                                                <input class="form-check-input" type="checkbox" :value="machine" v-model="selectedMachines" :id="'machine-' + machine">
+                                                <label class="form-check-label" :for="'machine-' + machine">
+                                                    {{ machine }}
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <button @click="startSequence" class="btn sicoob-btn-primary w-100" :disabled="!selectedCluster || selectedMachines.length === 0 || isProcessRunning">
+                                            <i class="fas" :class="isProcessRunning ? 'fa-spinner fa-spin' : 'fa-play'"></i>
+                                            {{ isProcessRunning ? 'Processo em Andamento...' : 'Iniciar Processo Completo' }}
+                                        </button>
+                                    </div>
+
+                                    <!-- Área de Progresso -->
+                                    <div v-if="sequence.running || sequence.error || sequence.success" class="mt-4">
+                                        <h5 class="text-center">Progresso: {{ selectedCluster }}</h5>
+                                        <div class="progress" style="height: 25px;">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                                 :class="progressClass"
+                                                 role="progressbar" 
+                                                 :style="{width: jobStatus.progress + '%'}" 
+                                                 :aria-valuenow="jobStatus.progress">
+                                                 <strong v-if="jobStatus.progress > 10">{{ jobStatus.progress }}%</strong>
+                                            </div>
+                                        </div>
+                                        <div class="text-center small mt-2">
+                                            <!-- Mensagem de erro global da sequência -->
+                                            <div v-if="sequence.error" class="text-danger">
+                                                <strong>Erro:</strong> {{ sequence.error }}
+                                            </div>
+                                            <!-- Mensagem de sucesso global -->
+                                            <div v-else-if="sequence.success" class="text-success">
+                                                <strong>{{ sequence.message }}</strong>
+                                            </div>
+                                            <!-- Mensagem de progresso -->
+                                            <div v-else>
+                                                <span v-if="sequence.step && sequence.totalSteps">
+                                                    <strong>{{ sequence.message }}:</strong>
+                                                </span>
+                                                {{ jobStatus.message }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const { createApp, ref, reactive, computed, onMounted, watch } = Vue;
+
+        const app = createApp({
+            setup() {
+                const username = ref('');
+                const clusters = ref([]);
+                const selectedCluster = ref('');
+                const clusterSearch = ref('');
+                const machines = ref([]);
+                const selectedMachines = ref([]);
+                
+                const sequence = reactive({
+                    running: false,
+                    step: 0,
+                    totalSteps: 3,
+                    message: '',
+                    error: null,
+                    success: false,
+                });
+
+                const jobStatus = ref({});
+                const isLoading = ref(false);
+                const globalError = ref(null);
+                const accessType = ref('full'); // padrão, será atualizado
+
+                const isProcessRunning = computed(() => sequence.running);
+
+                const progressClass = computed(() => {
+                    if (sequence.success) return 'bg-success';
+                    if (sequence.error) return 'bg-danger';
+                    return 'bg-info';
+                });
+
+                const filteredClusters = computed(() => {
+                    let baseList = clusters.value;
+                    // Filtra apenas clusters de processamento para acesso restrito
+                    if (accessType.value === 'processing') {
+                        baseList = baseList.filter(c => c.toLowerCase().includes('processamento'));
+                    }
+                    if (!clusterSearch.value) return baseList;
+                    const search = clusterSearch.value.toLowerCase();
+                    return baseList.filter(cluster => cluster.toLowerCase().includes(search));
+                });
+
+                const selectAllMachines = computed({
+                    get: () => machines.value.length > 0 && selectedMachines.value.length === machines.value.length,
+                    set: (value) => {
+                        selectedMachines.value = value ? [...machines.value] : [];
+                    }
+                });
+
+                const getUserInfo = async () => {
+                    try {
+                        const response = await axios.get('/user/info');
+                        username.value = response.data.displayName;
+                        // Adiciona tipo de acesso
+                        accessType.value = response.data.accessType || 'full';
+                    } catch (error) {
+                        window.location.href = '/login';
+                    }
+                };
+
+                const logout = () => {
+                    document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    window.location.href = '/login';
+                };
+
+                const fetchClusters = async () => {
+                    isLoading.value = true;
+                    globalError.value = null;
+                    try {
+                        const response = await axios.get('/processing/clusters');
+                        clusters.value = response.data;
+                    } catch (error) {
+                        globalError.value = "Erro ao carregar os clusters.";
+                    } finally {
+                        isLoading.value = false;
+                    }
+                };
+
+                const fetchMachinesForCluster = async () => {
+                    machines.value = [];
+                    selectedMachines.value = [];
+                    if (!selectedCluster.value) return;
+
+                    try {
+                        const response = await axios.get(`/processing/cluster/${selectedCluster.value}/machines`);
+                        machines.value = response.data;
+                    } catch (error) {
+                        console.error("Erro ao buscar máquinas:", error);
+                        globalError.value = `Não foi possível carregar as máquinas para o cluster ${selectedCluster.value}.`;
+                    }
+                };
+
+                const startSequence = async () => {
+                    if (!selectedCluster.value || selectedMachines.value.length === 0 || sequence.running) return;
+
+                    // Corrigir: garantir que selectedMachines seja uma lista de strings
+                    const machinesToSend = selectedMachines.value.map(m => String(m));
+
+                    Object.assign(sequence, { running: true, step: 0, totalSteps: 3, message: '', error: null, success: false });
+                    jobStatus.value = { status: 'starting', progress: 0, message: 'Preparando para iniciar...' };
+
+                    const jobs = [
+                        { id: 'stop_websphere', name: 'Stop Websphere' },
+                        { id: 'restart_sws', name: 'Restart SWS' },
+                        { id: 'restart_websphere', name: 'Restart Websphere' }
+                    ];
+
+                    try {
+                        for (let i = 0; i < jobs.length; i++) {
+                            const job = jobs[i];
+                            sequence.step = i + 1;
+
+                            // Corrigir: enviar lista de máquinas como array de strings
+                            await axios.post(`/processing/run-job/${job.id}`, {
+                                cluster_name: selectedCluster.value,
+                                machines: machinesToSend
+                            });
+
+                            const jobCompleted = await monitorJob(job.id, job.name);
+
+                            if (!jobCompleted) {
+                                throw new Error(`A etapa '${job.name}' falhou.`);
+                            }
+                        }
+
+                        sequence.success = true;
+                        sequence.message = 'Processo completo finalizado com sucesso!';
+                        jobStatus.value = { status: 'success', progress: 100, message: 'Todos os jobs foram concluídos!' };
+
+                    } catch (error) {
+                        if (!sequence.error) {
+                            sequence.error = error.message || 'Ocorreu um erro inesperado durante a sequência.';
+                        }
+                    } finally {
+                        sequence.running = false;
+                    }
+                };
+
+                const monitorJob = (jobId, jobName) => {
+                    return new Promise((resolve) => {
+                        const timer = setInterval(async () => {
+                            try {
+                                const response = await axios.get(`/processing/job-status/${jobId}/${selectedCluster.value}`);
+                                jobStatus.value = response.data;
+
+                                sequence.message = `Etapa ${sequence.step}/${sequence.totalSteps}: ${jobName}`;
+
+                                if (jobStatus.value.status === 'success') {
+                                    clearInterval(timer);
+                                    resolve(true);
+                                }
+                                if (jobStatus.value.status === 'error') {
+                                    clearInterval(timer);
+                                    sequence.error = `Erro na etapa '${jobName}': ${jobStatus.value.message}`;
+                                    resolve(false);
+                                }
+                            } catch (error) {
+                                clearInterval(timer);
+                                jobStatus.value = { status: 'error', progress: 100, message: 'Perda de comunicação com o servidor.' };
+                                sequence.error = 'Perda de comunicação com o servidor.';
+                                resolve(false);
+                            }
+                        }, 2000);
+                    });
+                };
+
+                onMounted(() => {
+                    getUserInfo();
+                    fetchClusters();
+                });
+
+                return {
+                    username,
+                    accessType,
+                    clusters,
+                    selectedCluster,
+                    clusterSearch,
+                    machines,
+                    selectedMachines,
+                    sequence,
+                    jobStatus,
+                    isLoading,
+                    globalError,
+                    isProcessRunning,
+                    progressClass,
+                    filteredClusters,
+                    selectAllMachines,
+                    logout,
+                    startSequence,
+                    fetchMachinesForCluster
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+*ATM* - Terminal de Auto Atendimento
+
+*Incidente*: Rejeições para as transações da utilização da ATM
+
+*Hora Inicio*: 10h12
+
+*Impacto*: Instabilidade para as transações da ATM
+
+*Causa*: Intermitência nos servidores que atendem a ATM.
+
+*Acionados*: Área de Operações de TI
+
+*Obs*: Executada ações de 1º nível para regularização
+
+*Regularizado*: 10h29

@@ -1,0 +1,661 @@
+:root {
+    /* Tema Claro (padrão) */
+    --sicoob-primary: #003641;
+    --sicoob-secondary: #00574E;
+    --sicoob-accent: #009A3D;
+    --sicoob-light: #E5F6F8;
+    --sicoob-danger: #dc3545;
+    --sidebar-width: 250px;
+    --bg-main: #f8f9fa;
+    --bg-card: #fff;
+    --text-color: #333;
+    --border-color: rgba(0,0,0,0.08);
+}
+
+[data-theme="dark"] {
+    /* Tema Escuro */
+    --sicoob-primary: #004d5d;
+    --sicoob-secondary: #006b5f;
+    --sicoob-accent: #00b348;
+    --sicoob-light: #1a2327;
+    --bg-main: #1a1a1a;
+    --bg-card: #2d2d2d;
+    --text-color: #e0e0e0;
+    --border-color: rgba(255,255,255,0.1);
+
+    /* Botões de consulta e auto refresh */
+    .sicoob-btn {
+        background-color: #2d2d2d;
+        color: #e0e0e0;
+        border: 1px solid #4a4a4a;
+    }
+
+    .sicoob-btn:hover {
+        background-color: #3d3d3d;
+        border-color: #5a5a5a;
+    }
+
+    .sicoob-btn-active {
+        background-color: var(--sicoob-accent) !important;
+        color: white !important;
+        border-color: var(--sicoob-accent) !important;
+    }
+
+    .sicoob-btn-primary {
+        background-color: var(--sicoob-accent);
+        color: white;
+        border: none;
+    }
+
+    .sicoob-btn-primary:hover {
+        background-color: #00b348;
+    }
+
+    .sicoob-btn-primary:disabled {
+        background-color: #2d2d2d;
+        color: #808080;
+        border: 1px solid #4a4a4a;
+    }
+
+    /* Ajuste de cor dos ícones dentro dos botões */
+    .sicoob-btn i,
+    .sicoob-btn-primary i {
+        color: inherit;
+    }
+
+    /* Ajuste do input de busca */
+    .sicoob-input {
+        background-color: #2d2d2d;
+        color: #e0e0e0;
+        border-color: #4a4a4a;
+    }
+
+    .sicoob-input:focus {
+        background-color: #3d3d3d;
+        color: #e0e0e0;
+        border-color: var(--sicoob-accent);
+        box-shadow: 0 0 0 0.2rem rgba(0, 179, 72, 0.25);
+    }
+
+    /* Ajuste da cor do texto no placeholder */
+    .sicoob-input::placeholder {
+        color: #808080;
+    }
+
+    /* Ajustes para os formulários de Disco_Opt e OutOfMemory */
+    .clean-opt-form {
+        background-color: var(--bg-card);
+        border: 1px solid var(--border-color);
+    }
+
+    .clean-opt-form .card-body {
+        background-color: var(--bg-card) !important;
+        color: var(--text-color);
+    }
+
+    .clean-opt-form .form-control-sm {
+        background-color: var(--bg-main);
+        border-color: var(--border-color);
+        color: var(--text-color);
+    }
+
+    .clean-opt-form .form-control-sm:focus {
+        background-color: var(--bg-main);
+        border-color: var(--sicoob-accent);
+        color: var(--text-color);
+    }
+
+    .clean-opt-form .form-label {
+        color: var(--text-color);
+    }
+
+    /* Ajuste dos alertas dentro dos formulários */
+    .clean-opt-form .alert-sm {
+        background-color: var(--bg-main);
+        border: 1px solid var(--border-color);
+        color: var(--text-color);
+    }
+
+    .clean-opt-form .alert-success {
+        background-color: rgba(0, 154, 61, 0.2);
+        border-color: var(--sicoob-accent);
+        color: #98c9a3;
+    }
+
+    .clean-opt-form .alert-danger {
+        background-color: rgba(220, 53, 69, 0.2);
+        border-color: var(--sicoob-danger);
+        color: #e4606d;
+    }
+}
+
+/* Layout Base */
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    color: var(--text-color);
+    background-color: var(--bg-main);
+}
+
+/* Ocultar elementos Vue até que estejam prontos */
+[v-cloak] {
+    display: none;
+}
+
+/* Layout Principal */
+.app-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Estilos da Barra Lateral */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--sidebar-width);
+    background-color: var(--sicoob-primary);
+    z-index: 100;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.sidebar-header {
+    padding: 1rem;
+    color: white;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+}
+
+.sidebar-logo {
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 1rem;
+    object-fit: contain;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu a:hover, 
+.sidebar-menu a.active {
+    background-color: var(--sicoob-accent);
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar-menu a i {
+    margin-right: 0.75rem;
+    width: 20px;
+    text-align: center;
+}
+
+/* Área Principal */
+.main-content {
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    min-height: 100vh;
+    padding: 20px;
+    background-color: var(--bg-main, #f8f9fa);
+    padding-top: 84px; /* Garante espaço para a navbar fixa */
+}
+
+/* Container dentro do main-content */
+.container {
+    max-width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* Barra de navegação superior */
+.navbar {
+    min-height: 64px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    background: var(--bg-card, #fff);
+    border-bottom: 1px solid var(--border-color, #eee);
+}
+.user-navbar-area {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.user-navbar-area .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--sicoob-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+.user-navbar-area .logout-btn {
+    border: none;
+    background: none;
+    color: var(--sicoob-danger);
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+.user-navbar-area .logout-btn:hover {
+    background-color: var(--sicoob-danger);
+    color: white;
+}
+
+/* Remover antiga user-area fixa */
+.user-area {
+    display: none !important;
+}
+
+/* Painel de Log de Operações (flyout) */
+.operation-log-panel-flyout {
+    position: fixed;
+    top: 70px;
+    right: 2vw;
+    z-index: 2000;
+    width: 370px;
+    max-width: 96vw;
+    max-height: 80vh;
+    background: transparent;
+    transition: all 0.2s;
+}
+.operation-log-panel-flyout .card {
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+}
+.operation-log-panel-flyout .card-header {
+    border-radius: 10px 10px 0 0;
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
+.operation-log-panel-flyout .card-body {
+    background: var(--bg-card);
+    font-size: 0.95rem;
+}
+.operation-log-panel-flyout .badge {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+.operation-log-panel-flyout .fa-spinner {
+    font-size: 1rem;
+}
+.operation-log-panel-flyout .fa-check-circle,
+.operation-log-panel-flyout .fa-times-circle {
+    font-size: 1rem;
+}
+.operation-log-panel-flyout .btn-close,
+.operation-log-panel-flyout .btn {
+    font-size: 1rem;
+    padding: 0.2rem 0.5rem;
+}
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.2s;
+}
+.fade-enter-from, .fade-leave-to {
+    opacity: 0;
+}
+@media (max-width: 900px) {
+    .operation-log-panel-flyout {
+        right: 0;
+        left: 0;
+        margin: 0 auto;
+        width: 98vw;
+        max-width: 98vw;
+        min-width: 0;
+        top: 60px;
+    }
+    .operation-log-panel-flyout .card-body {
+        max-height: 30vh !important;
+    }
+}
+
+/* Corrigir alinhamento do horário do log */
+.operation-log-panel-flyout .card-body .ms-auto {
+    margin-left: auto !important;
+    white-space: nowrap;
+    min-width: 70px;
+    text-align: right;
+    display: inline-block;
+}
+
+/* Theme switch para barra superior */
+.theme-switch {
+    position: static !important;
+    background: transparent;
+    padding: 0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+.theme-switch button {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: var(--sicoob-primary);
+    border-radius: 4px;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+}
+.theme-switch button.active {
+    background-color: var(--sicoob-accent);
+    color: white;
+    opacity: 1;
+}
+.theme-switch button:hover {
+    opacity: 1;
+    background-color: rgba(0, 154, 61, 0.08);
+}
+
+/* Remove theme-switch antigo da sidebar */
+.sidebar .theme-switch {
+    display: none !important;
+}
+
+/* Ajuste para o card de resultado do node */
+.node-result-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-width: 0;
+    word-break: break-word;
+    box-sizing: border-box;
+    overflow: visible;
+    border-radius: 8px;
+    /* Mantém o card dentro do grid */
+}
+
+.node-result-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-left: 0;
+    margin-top: 0.5rem;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.node-result-btn-group .btn {
+    padding: 0.25rem 0.7rem;
+    font-size: 0.85rem;
+    min-width: 0;
+    white-space: nowrap;
+    max-width: 100%;
+    box-sizing: border-box;
+    flex: 0 0 auto;
+}
+
+@media (max-width: 1200px) {
+    .node-result-btn-group {
+        flex-wrap: wrap;
+        width: 100%;
+        margin-left: 0;
+        margin-top: 0.5rem;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 992px) {
+    .node-result-btn-group {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .node-result-btn-group {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 0.5rem;
+        max-width: 100%;
+    }
+    .node-result-card {
+        min-width: 0;
+        max-width: 100%;
+    }
+}
+
+/* ===== Login Page Styles ===== */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-main, #f8f9fa);
+    padding: 2rem 0;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 14px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10), 0 1.5px 4px rgba(0,0,0,0.06);
+    background: var(--bg-card, #fff);
+    border: 1px solid var(--border-color, #e0e0e0);
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.login-header {
+    text-align: center;
+    padding: 2rem 1rem 1rem 1rem;
+    background: var(--sicoob-primary, #003641);
+    color: #fff;
+    border-bottom: 1px solid rgba(0,0,0,0.03);
+}
+
+.login-logo {
+    max-width: 120px;
+    margin-bottom: 1rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-header h3 {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-size: 1.7rem;
+    letter-spacing: 0.01em;
+}
+
+.login-header p {
+    margin-bottom: 0;
+    font-size: 1rem;
+    color: #e0e0e0;
+}
+
+.login-card .card-body {
+    background: transparent;
+    padding: 2rem 1.5rem 1.5rem 1.5rem;
+}
+
+.login-card .form-label {
+    font-weight: 600;
+    color: var(--sicoob-primary, #003641);
+}
+
+.login-card .form-control {
+    border-radius: 6px;
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.login-card .btn-primary {
+    background: var(--sicoob-accent, #009A3D);
+    border: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.login-card .btn-primary:hover,
+.login-card .btn-primary:focus {
+    background: #007c2a;
+}
+
+.login-card .alert {
+    border-radius: 6px;
+    font-size: 0.97rem;
+    padding: 0.65rem 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.login-card .btn-outline-danger {
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+@media (max-width: 600px) {
+    .login-card {
+        max-width: 98vw;
+        margin: 1rem;
+    }
+    .login-header {
+        padding: 1.2rem 0.5rem 0.7rem 0.5rem;
+    }
+    .login-card .card-body {
+        padding: 1.2rem 0.7rem 1rem 0.7rem;
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    :root {
+        --sidebar-width: 60px;
+    }
+
+    .sidebar-header h4,
+    .sidebar-menu span {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: var(--sidebar-width);
+        width: calc(100% - var(--sidebar-width));
+    }
+
+    .related-nodes-menu {
+        width: calc(100% - 2rem);
+        max-width: 400px;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+
+    .content-wrapper {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-md-4 {
+        width: 33.333333%; /* Voltar para 3 colunas em telas grandes */
+        min-height: 300px;
+    }
+}
+
+/* Checkbox customizado para seleção de nodes */
+.custom-checkbox {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    padding-left: 22px;
+    margin-bottom: 0;
+    font-size: 1rem;
+    user-select: none;
+    vertical-align: middle;
+    margin-right: 0.25rem;
+}
+.custom-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+.custom-checkbox .checkmark {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 16px;
+    width: 16px;
+    background-color: var(--bg-card, #fff);
+    border: 2px solid var(--sicoob-accent, #009A3D);
+    border-radius: 4px;
+    transition: background 0.2s, border-color 0.2s;
+}
+.custom-checkbox input:checked ~ .checkmark {
+    background-color: var(--sicoob-accent, #009A3D);
+    border-color: var(--sicoob-accent, #009A3D);
+}
+.custom-checkbox .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+.custom-checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+.custom-checkbox .checkmark:after {
+    left: 4px;
+    top: 0px;
+    width: 4px;
+    height: 8px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Badge de quantidade selecionada */
+.badge.bg-info {
+    margin-left: 0.5rem;
+    font-size: 0.95em;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    vertical-align: middle;
+}
+
+/* Gráficos de pizza (monitoracao) */
+.sicoob-card .card-body > div > canvas,
+.sicoob-card .card-body canvas {
+    min-height: 260px !important;
+    max-width: 350px;
+    width: 100% !important;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Garante altura mínima dos cards dos gráficos */
+.sicoob-card.flex-fill {
+    min-height: 340px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

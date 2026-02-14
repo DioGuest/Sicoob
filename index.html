@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F5 Load Balancer Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/sicoob-theme.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="app" class="app-wrapper">
+        <!-- Barra Lateral -->
+        <nav class="sidebar">
+            <div class="sidebar-header text-center">
+                <!-- Corrigir caminho do logo -->
+                <img src="/assets/img/logo-sicoob.png" alt="Sicoob" class="sidebar-logo">
+                <h4 class="mb-0">F5 Manager</h4>
+            </div>
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="/" :class="{ active: currentView === 'nodes' }">
+                        <i class="fas fa-server"></i>
+                        <span>Consulta de Nodes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pools-page" :class="{ active: currentView === 'pools' }">
+                        <i class="fas fa-layer-group"></i>
+                        <span>Consulta de Pools</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/processamento-page" :class="{ active: currentView === 'processamento' }">
+                        <i class="fas fa-cogs"></i>
+                        <span>Restart de Processamento</span>
+                    </a>
+                </li>
+                <li><a href="/monitoracao-page"><i class="fas fa-chart-bar"></i><span>Monitoramento</span></a></li>
+            </ul>
+            <!-- Remover theme-switch DAQUI -->
+        </nav>
+
+        <!-- Barra de Navegação Superior -->
+        <nav class="navbar navbar-expand navbar-light bg-white shadow-sm"
+             style="position:fixed; left:var(--sidebar-width); right:0; top:0; z-index:1200; height:64px; padding:0 1.5rem;">
+            <div class="container-fluid d-flex align-items-center justify-content-end" style="height:64px;">
+                <!-- Botão de logs (sino) -->
+                <button class="btn btn-link position-relative me-3" @click="toggleLogPanel" title="Ver logs de operações" style="font-size:1.4rem;">
+                    <i class="fas fa-bell"></i>
+                    <span v-if="operationLogs.some(l => l.status==='processing')" class="position-absolute top-0 start-100 translate-middle p-1 bg-info border border-light rounded-circle"></span>
+                </button>
+                
+                <!-- Botão do Assistente de Voz -->
+                <button class="btn btn-link me-3" @click="toggleVoiceAssistant" title="Ativar/Desativar Assistente de Voz" style="font-size:1.4rem;">
+                    <i class="fas fa-microphone" :class="{'text-success': voiceAssistantEnabled}"></i>
+                </button>
+
+                <!-- Botões de tema -->
+                <div class="theme-switch d-flex align-items-center me-3" style="position:static;gap:0.25rem;">
+                    <button @click="setTheme('light')" :class="{ active: currentTheme === 'light' }" title="Tema Claro">
+                        <i class="fas fa-sun"></i>
+                    </button>
+                    <button @click="setTheme('dark')" :class="{ active: currentTheme === 'dark' }" title="Tema Escuro">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+                <!-- Área do Usuário -->
+                <div class="d-flex align-items-center user-navbar-area">
+                    <div class="user-avatar me-2">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-details me-2">
+                        <strong class="d-block">{{ username }}</strong>
+                        <small class="text-muted">Usuário F5</small>
+                    </div>
+                    <button @click="logout" class="logout-btn ms-2" title="Sair">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Painel de Log de Operações (flyout) -->
+        <transition name="fade">
+        <div v-if="showLogPanel" class="operation-log-panel-flyout" @click.self="toggleLogPanel">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white py-2 px-3 d-flex align-items-center">
+                    <i class="fas fa-clipboard-list me-2"></i>
+                    <span>Log de Operações</span>
+                    <button class="btn btn-sm btn-light ms-auto" @click="toggleLogPanel" title="Fechar"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="card-body p-2" style="max-height:70vh; overflow-y:auto;">
+                    <!-- ALERTA DE RESTART SEQUENCIAL EM ANDAMENTO -->
+                    <div v-if="sequentialRestartInProgress && sequentialRestartQueue.length" class="alert alert-info py-1 px-2 mb-2 small">
+                        <i class="fas fa-stream me-1"></i>
+                        Restart sequencial em andamento. Nodes aguardando: {{ sequentialRestartQueue.join(', ') }}
+                    </div>
+                    <div v-if="operationLogs.length === 0" class="text-muted small text-center py-2">
+                        Nenhuma operação registrada.
+                    </div>
+                    <div v-for="log in operationLogs" :key="log.id" class="mb-2">
+                        <div class="card border-0 bg-light">
+                            <div class="card-body py-2 px-3 d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <strong class="me-2">{{ log.node }}</strong>
+                                        <span class="badge bg-secondary me-2">{{ log.user }}</span>
+                                        <span class="badge"
+                                            :class="{
+                                                'bg-info': log.status==='processing',
+                                                'bg-success': log.status==='success',
+                                                'bg-danger': log.status==='error'
+                                            }">
+                                            {{ log.action }}
+                                        </span>
+                                        <span v-if="log.status==='processing'" class="ms-2">
+                                            <i class="fas fa-spinner fa-spin text-info"></i>
+                                        </span>
+                                        <span v-else-if="log.status==='success'" class="ms-2">
+                                            <i class="fas fa-check-circle text-success"></i>
+                                        </span>
+                                        <span v-else-if="log.status==='error'" class="ms-2">
+                                            <i class="fas fa-times-circle text-danger"></i>
+                                        </span>
+                                        <!-- Hora da operação dentro do mesmo bloco, alinhada à direita -->
+                                        <span class="ms-auto small text-muted" style="white-space:nowrap; min-width:70px;">
+                                            {{ formatLogTime(log.timestamp) }}
+                                        </span>
+                                    </div>
+                                    <div class="small text-muted">{{ log.message }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </transition>
+
+        <!-- Conteúdo da Página -->
+        <main class="main-content" style="padding-top:84px;">
+            <div class="content-wrapper">
+                <!-- View de Nodes -->
+                <div v-if="currentView === 'nodes'" class="node-view">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="sicoob-card">
+                                <div class="card-header">
+                                    <h5 class="sicoob-title">Consultar Node</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="search-container">
+                                        <div class="input-group">
+                                            <input 
+                                                v-model="nodeName" 
+                                                class="form-control sicoob-input" 
+                                                placeholder="Digite os nomes dos Nodes (Ex: WASP357,WASP269)"
+                                                @keyup.enter="getNodeStatus">
+                                            <button @click="toggleAutoRefresh" class="btn sicoob-btn" :class="{'sicoob-btn-active': autoRefreshEnabled}" aria-label="Alternar auto atualização">
+                                                <i class="fas" :class="autoRefreshEnabled ? 'fa-sync fa-spin' : 'fa-sync'"></i>
+                                                {{ autoRefreshEnabled ? 'Auto' : 'Manual' }}
+                                            </button>
+                                            <button @click="getNodeStatus" class="btn sicoob-btn-primary" :disabled="isLoading" aria-label="Consultar node">
+                                                <i class="fas" :class="{'fa-search': !isLoading, 'fa-spinner fa-spin': isLoading}"></i>
+                                                {{ isLoading ? 'Consultando...' : 'Consultar' }}
+                                            </button>
+                                        </div>
+                                        <small class="text-muted mt-1" v-if="autoRefreshEnabled">
+                                            Atualizando a cada {{ refreshInterval }} segundos
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="results.length" class="row mt-4">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-header d-flex flex-wrap justify-content-between align-items-center">
+                                    <h5 class="mb-0">Status do Node</h5>
+                                    <!-- Selecionar todos e contador -->
+                                    <div class="d-flex align-items-center gap-3 flex-wrap">
+                                        <label class="custom-checkbox me-2 mb-0" style="font-weight:500;">
+                                            <input 
+                                                type="checkbox"
+                                                :checked="allNodesSelected"
+                                                @change="toggleSelectAllNodes">
+                                            <span class="checkmark"></span>
+                                            <span class="ms-2">Selecionar todos</span>
+                                        </label>
+                                        <span class="badge bg-info" v-if="selectedNodes.length">
+                                            {{ selectedNodes.length }} selecionado{{ selectedNodes.length > 1 ? 's' : '' }}
+                                        </span>
+                                        <!-- NOVO: Campo para escolher quantos por vez -->
+                                        <div class="input-group input-group-sm" style="width: 110px; min-width: 110px;">
+                                            <span class="input-group-text" title="Quantidade de nodes por vez">Paralelo</span>
+                                            <input type="number" min="1" :max="selectedNodes.length || 1" v-model.number="sequentialBatchSize" class="form-control" style="width:40px;" :disabled="sequentialRestartInProgress">
+                                        </div>
+                                        <button 
+                                            class="btn btn-sm btn-primary"
+                                            :disabled="!selectedNodes.length || isLoading || missingBalancers.length > 0"
+                                            @click="massEnableNodes"
+                                            title="Habilitar selecionados">
+                                            <i class="fas fa-check"></i> Habilitar
+                                        </button>
+                                        <button 
+                                            class="btn btn-sm btn-danger"
+                                            :disabled="!selectedNodes.length || isLoading"
+                                            @click="massDisableNodes"
+                                            title="Desabilitar selecionados">
+                                            <i class="fas fa-power-off"></i> Desabilitar
+                                        </button>
+                                        <button 
+                                            class="btn btn-sm btn-info"
+                                            :disabled="!selectedNodes.length || isLoading || missingBalancers.length > 0"
+                                            @click="massRestartNodes"
+                                            title="Restart selecionados">
+                                            <i class="fas fa-sync"></i> Restart
+                                        </button>
+                                        <button 
+                                            class="btn btn-sm btn-warning"
+                                            :disabled="!selectedNodes.length || isLoading || missingBalancers.length > 0"
+                                            @click="sequentialRestartNodes"
+                                            title="Restart Sequencial dos selecionados">
+                                            <i class="fas fa-stream"></i> Restart Sequencial
+                                        </button>
+                                        <!-- NOVO: Botão para parar o sequencial -->
+                                        <button
+                                            v-if="sequentialRestartInProgress"
+                                            class="btn btn-sm btn-danger"
+                                            @click="confirmStopSequentialRestart"
+                                            title="Parar Sequencial"
+                                            :disabled="!sequentialRestartInProgress">
+                                            <i class="fas fa-stop"></i> Parar Sequencial
+                                        </button>
+                                        <button 
+                                            class="btn btn-sm btn-warning"
+                                            :disabled="!selectedNodes.length || isLoading"
+                                            @click="openMassActionModal('clean')"
+                                            title="Limpar Disco_Opt nos selecionados">
+                                            <i class="fas fa-broom"></i> Limpar Disco
+                                        </button>
+                                        <button 
+                                            class="btn btn-sm btn-danger"
+                                            :disabled="!selectedNodes.length || isLoading"
+                                            @click="openMassActionModal('move')"
+                                            title="Mover OutOfMemory nos selecionados">
+                                            <i class="fas fa-exchange-alt"></i> Mover OutOfMemory
+                                        </button>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <small v-if="lastUpdate" class="text-muted">
+                                            Última atualização: {{ lastUpdate }}
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div v-for="(result, index) in results" :key="index" class="col-md-4 mb-3">
+                                            <div class="card node-result-card" :class="{
+                                                'border-success': hasEnabledStatus(result),
+                                                'border-warning': hasDisabledStatus(result),
+                                                'border-danger': hasOfflineStatus(result)
+                                            }">
+                                                <div class="card-header">
+                                                    <i class="fas fa-server me-2"></i>
+                                                    {{ result.balancer }}
+                                                </div>
+                                                <div class="card-body">
+                                                    <div v-if="result.nodes">
+                                                        <div v-for="node in result.nodes" :key="node.servidor" class="mb-2">
+                                                            <!-- ALERTA DE AGUARDANDO RESTART SEQUENCIAL -->
+                                                            <div v-if="sequentialRestartInProgress && sequentialRestartQueue.includes(node.servidor)" class="alert alert-warning py-1 px-2 mb-2 small">
+                                                                <i class="fas fa-stream me-1"></i>
+                                                                <!-- NOVO: mensagem diferente se interrompido -->
+                                                                <span v-if="sequentialRestartStopRequested">Sequencial interrompido...</span>
+                                                                <span v-else>Aguardando restart sequencial...</span>
+                                                            </div>
+                                                            <!-- Status e informações do node -->
+                                                            <p class="mb-1 d-flex align-items-center">
+                                                                <i class="fas" :class="{
+                                                                    'fa-check-circle text-success': node.status === 'enabled',
+                                                                    'fa-exclamation-circle text-warning': node.status === 'disabled',
+                                                                    'fa-times-circle text-danger': node.status === 'offline'
+                                                                }"></i>
+                                                                <!-- Checkbox customizado à esquerda do nome da máquina -->
+                                                                <label class="custom-checkbox ms-2 me-2 mb-0">
+                                                                    <input 
+                                                                        type="checkbox" 
+                                                                        :value="node.servidor"
+                                                                        :checked="isNodeSelected(node.servidor)"
+                                                                        @change="toggleNodeSelection(node.servidor)">
+                                                                    <span class="checkmark"></span>
+                                                                </label>
+                                                                <strong>{{ node.servidor }}</strong>
+                                                            </p>
+                                                            <p class="mb-1 small text-muted" v-if="node.cluster_info">
+                                                                <i class="fas fa-server me-1"></i>
+                                                                <template v-if="node.cluster_info.cluster">
+                                                                    Cluster: {{ node.cluster_info.cluster }}
+                                                                </template>
+                                                                <span v-else class="text-warning">
+                                                                    <i class="fas fa-exclamation-triangle me-1"></i>
+                                                                    Cluster não encontrado
+                                                                </span>
+                                                            </p>
+                                                            <p class="mb-1">
+                                                                <span class="badge" :class="getStatusBadgeClass(node)">
+                                                                    {{ node.found ? node.status : 'Não encontrado' }}
+                                                                </span>
+                                                                <span class="badge bg-info ms-2" v-if="node.connections !== undefined">
+                                                                    <i class="fas fa-plug me-1"></i>
+                                                                    {{ node.connections }} conexões ativas
+                                                                </span>
+                                                            </p>
+                                                            <!-- Botões lado a lado, logo abaixo dos status -->
+                                                            <div class="btn-group node-result-btn-group mt-2">
+                                                                <button 
+                                                                    @click="restartCompleteNode(node.servidor)"
+                                                                    class="btn btn-sm btn-info"
+                                                                    title="Restart Completo"
+                                                                    :disabled="!node.found || isNodeRestarting(node.servidor) || sequentialRestartInProgress">
+                                                                    <i class="fas" :class="{'fa-sync-alt fa-spin': isNodeRestarting(node.servidor), 'fa-sync': !isNodeRestarting(node.servidor)}"></i>
+                                                                    {{ isNodeRestarting(node.servidor) ? 'Reiniciando...' : 'Restart' }}
+                                                                </button>
+                                                                <button 
+                                                                    @click="setNodeOffline(node.servidor)"
+                                                                    class="btn btn-sm btn-danger"
+                                                                    title="Forçar Offline em todos balanceadores"
+                                                                    :disabled="!node.found || node.status === 'disabled' || isLoading || sequentialRestartInProgress"
+                                                                    aria-label="Forçar offline em todos balanceadores">
+                                                                    <i class="fas fa-power-off"></i> TODOS
+                                                                </button>
+                                                                <button 
+                                                                    @click="enableNode(node.servidor)"
+                                                                    class="btn btn-sm btn-primary"
+                                                                    title="Habilitar em todos balanceadores"
+                                                                    :disabled="!node.found || node.status === 'enabled' || isLoading || sequentialRestartInProgress"
+                                                                    aria-label="Habilitar em todos balanceadores">
+                                                                    <i class="fas fa-check"></i> TODOS
+                                                                </button>
+                                                                <button 
+                                                                    @click="setNodeOfflineForBalancer(node.servidor, result.balancer)"
+                                                                    class="btn btn-sm btn-warning"
+                                                                    title="Forçar Offline neste balanceador"
+                                                                    :disabled="!node.found || node.status === 'disabled' || sequentialRestartInProgress">
+                                                                    <i class="fas fa-power-off"></i>
+                                                                </button>
+                                                                <button 
+                                                                    @click="enableNodeForBalancer(node.servidor, result.balancer)"
+                                                                    class="btn btn-sm btn-success"
+                                                                    title="Habilitar neste balanceador"
+                                                                    :disabled="!node.found || node.status === 'enabled' || sequentialRestartInProgress">
+                                                                    <i class="fas fa-check"></i>
+                                                                </button>
+                                                                <button 
+                                                                    @click="toggleCleanForm(node.servidor)"
+                                                                    class="btn btn-sm btn-warning"
+                                                                    title="Limpar Disco_Opt"
+                                                                    :disabled="sequentialRestartInProgress">
+                                                                    <i class="fas fa-broom"></i>
+                                                                    Limpar Disco_Opt
+                                                                </button>
+                                                                <button 
+                                                                    @click="toggleOutOfMemoryForm(node.servidor)"
+                                                                    class="btn btn-sm btn-danger"
+                                                                    title="Mover Outofmemory"
+                                                                    :disabled="sequentialRestartInProgress">
+                                                                    <i class="fas fa-exchange-alt"></i>
+                                                                    Move OutOfMemory
+                                                                </button>
+                                                            </div>
+                                                            <!-- Barra de progresso do restart: agora mais embaixo -->
+                                                            <div v-if="restartStatus[node.servidor] && (isNodeRestarting(node.servidor) || ['completed','error'].includes(restartStatus[node.servidor].status))" class="w-100 mt-3">
+                                                                <div class="progress" style="height: 18px;">
+                                                                    <div class="progress-bar" 
+                                                                        :class="{
+                                                                            'bg-info': restartStatus[node.servidor].status === 'in_progress' || restartStatus[node.servidor].status === 'starting' || restartStatus[node.servidor].status === 'waiting' || restartStatus[node.servidor].status === 'restarting' || restartStatus[node.servidor].status === undefined,
+                                                                            'bg-success': restartStatus[node.servidor].status === 'completed',
+                                                                            'bg-danger': restartStatus[node.servidor].status === 'error'
+                                                                        }"
+                                                                        role="progressbar"
+                                                                        :style="{ width: (restartStatus[node.servidor].progress || 0) + '%' }"
+                                                                        :aria-valuenow="restartStatus[node.servidor].progress || 0"
+                                                                        aria-valuemin="0"
+                                                                        aria-valuemax="100">
+                                                                        {{ restartStatus[node.servidor].progress || 0 }}%
+                                                                    </div>
+                                                                </div>
+                                                                <div class="small mt-1" v-if="restartStatus[node.servidor].message">
+                                                                    {{ restartStatus[node.servidor].message }}
+                                                                </div>
+                                                                <div class="small mt-1 fw-bold" v-if="['completed','error'].includes(restartStatus[node.servidor].status)">
+                                                                    <span v-if="restartStatus[node.servidor].status === 'completed'" class="text-success">
+                                                                        <i class="fas fa-check-circle"></i> Restart concluído com sucesso!
+                                                                    </span>
+                                                                    <span v-else class="text-danger">
+                                                                        <i class="fas fa-times-circle"></i> Falha no restart!
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Adicionar formulário de limpeza aqui -->
+                                                            <div v-if="cleanOptForm[node.servidor]" class="clean-opt-form mt-3">
+                                                                <form @submit.prevent="executeCleanOpt(node.servidor)" class="card-body bg-light rounded border">
+                                                                    <h6 class="mb-3">Limpar Disco_Opt - {{ node.servidor }}</h6>
+                                                                    <div class="mb-2">
+                                                                        <label class="form-label small">Usuário Sicoob</label>
+                                                                        <input type="text" class="form-control form-control-sm" v-model="cleanOptCredentials.username" required>
+                                                                    </div>
+                                                                    <div class="mb-2">
+                                                                        <label class="form-label small">Senha</label>
+                                                                        <input type="password" class="form-control form-control-sm" v-model="cleanOptCredentials.password" required>
+                                                                    </div>
+                                                                    <div v-if="cleanOptResult && cleanOptResult.node === node.servidor" 
+                                                                         class="alert alert-sm mt-2" 
+                                                                         :class="cleanOptResult.status === 'success' ? 'alert-success' : 'alert-danger'">
+                                                                    <div v-html="formatApiMessage(cleanOptResult.message)"></div>
+                                                                </div>
+                                                                <div class="text-end mt-2">
+                                                                    <button type="button" @click="toggleCleanForm(node.servidor)" class="btn btn-secondary btn-sm me-2">
+                                                                        <i class="fas fa-times"></i> Cancelar
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-primary btn-sm" :disabled="isCleanOptLoading">
+                                                                        <i class="fas" :class="isCleanOptLoading ? 'fa-spinner fa-spin' : 'fa-broom'"></i>
+                                                                        {{ isCleanOptLoading ? 'Executando...' : 'Limpar' }}
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <!-- Adicionar formulário de OutOfMemory -->
+                                                        <div v-if="outOfMemoryForm[node.servidor]" class="clean-opt-form mt-3">
+                                                            <form @submit.prevent="executeOutOfMemory(node.servidor)" class="card-body bg-light rounded border">
+                                                                <h6 class="mb-3">Mover Arquivos OutOfMemory - {{ node.servidor }}</h6>
+                                                                <div class="mb-2">
+                                                                    <label class="form-label small">Usuário Sicoob</label>
+                                                                    <input type="text" class="form-control form-control-sm" v-model="outOfMemoryCredentials.username" required>
+                                                                </div>
+                                                                <div class="mb-2">
+                                                                    <label class="form-label small">Senha</label>
+                                                                    <input type="password" class="form-control form-control-sm" v-model="outOfMemoryCredentials.password" required>
+                                                                </div>
+                                                                <div v-if="outOfMemoryResult && outOfMemoryResult.node === node.servidor" 
+                                                                     class="alert alert-sm mt-2" 
+                                                                     :class="outOfMemoryResult.status === 'success' ? 'alert-success' : 'alert-danger'">
+                                                                <div v-html="formatApiMessage(outOfMemoryResult.message)"></div>
+                                                            </div>
+                                                            <div class="text-end mt-2">
+                                                                <button type="button" @click="toggleOutOfMemoryForm(node.servidor)" class="btn btn-secondary btn-sm me-2">
+                                                                    <i class="fas fa-times"></i> Cancelar
+                                                                </button>
+                                                                <button type="submit" class="btn btn-primary btn-sm" :disabled="isOutOfMemoryLoading">
+                                                                    <i class="fas" :class="isOutOfMemoryLoading ? 'fa-spinner fa-spin' : 'fa-exchange-alt'"></i>
+                                                                    {{ isOutOfMemoryLoading ? 'Executando...' : 'Mover' }}
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View de Pools -->
+                <div v-if="currentView === 'pools'" class="pools-view">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">Consultar Pool</h5>
+                            <div class="row g-3">
+                                <div class="col-md-8">
+                                    <div class="search-box">
+                                        <i class="fas fa-search"></i>
+                                        <input
+                                            v-model="poolSearch"
+                                            class="form-control"
+                                            placeholder="Filtrar pools..."
+                                            type="search"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <button 
+                                        v-if="poolName"
+                                        @click="clearPoolSelection"
+                                        class="btn btn-outline-secondary btn-sm float-end"
+                                        title="Limpar seleção">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Lista de Pools -->
+                            <div class="pool-list mt-3" v-if="filteredPools.length">
+                                <div class="list-group">
+                                    <a href="#" 
+                                        v-for="pool in filteredPools" 
+                                        :key="pool"
+                                        @click.prevent="selectPool(pool)"
+                                        class="list-group-item list-group-item-action"
+                                        :class="{ active: pool === poolName }">
+                                        <i class="fas fa-layer-group me-2"></i>
+                                        {{ pool }}
+                                    </a>
+                                </div>
+                            </div>
+                            <div v-else class="text-center text-muted mt-3">
+                                Nenhum pool encontrado
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resultados do Pool -->
+                    <div v-if="poolResults.length" class="pool-results">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-server me-2"></i>
+                                    {{ poolName }}
+                                </h5>
+                                <div class="header-actions">
+                                    <span class="badge bg-secondary">
+                                        {{ poolResults.length }} balanceador(es)
+                                    </span>
+                                    <small class="text-muted ms-2" v-if="lastPoolUpdate">
+                                        Atualizado: {{ lastPoolUpdate }}
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div v-for="result in poolResults" :key="result.balancer" class="col-md-6 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-header bg-light">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <strong>{{ result.balancer }}</strong>
+                                                    <span class="badge" :class="getMemberStatusBadge(result)">
+                                                        {{ getMembersStatus(result) }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="card-body p-0">
+                                                <div class="list-group list-group-flush">
+                                                    <div v-for="member in result.members" 
+                                                         :key="member.name" 
+                                                         class="list-group-item">
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <div>
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="status-indicator me-2" 
+                                                                         :class="getMemberStatusClass(member)">
+                                                                    </div>
+                                                                    <div>
+                                                                        <strong>{{ member.name.split('/Common/')[1] }}</strong>
+                                                                        <div class="text-muted small">
+                                                                            {{ member.address }}:{{ member.port }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <span class="badge" :class="getMemberStatusBadge(member)">
+                                                                {{ member.state }}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Modal para Ações em Massa (Limpeza de Disco / Mover OutOfMemory) -->
+        <div v-if="showMassActionModal" class="modal fade show" style="display: block;" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fas me-2" :class="massActionType === 'clean' ? 'fa-broom' : 'fa-exchange-alt'"></i>
+                            {{ massActionType === 'clean' ? 'Limpeza de Disco em Massa' : 'Mover OutOfMemory em Massa' }}
+                        </h5>
+                        <button type="button" class="btn-close" @click="closeMassActionModal" :disabled="isMassActionLoading"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>A ação será executada nos seguintes <strong>{{ selectedNodes.length }}</strong> node(s):</p>
+                        <div class="mb-3 p-2 bg-light rounded" style="max-height: 100px; overflow-y: auto;">
+                            <span v-for="(node, index) in selectedNodes" :key="node" class="badge bg-secondary me-1 mb-1">{{ node }}</span>
+                        </div>
+                        
+                        <form @submit.prevent="executeMassAction">
+                            <div class="mb-2">
+                                <label class="form-label small">Usuário Sicoob</label>
+                                <input type="text" class="form-control" v-model="massActionCredentials.username" required :disabled="isMassActionLoading">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small">Senha</label>
+                                <input type="password" class="form-control" v-model="massActionCredentials.password" required :disabled="isMassActionLoading">
+                            </div>
+
+                            <!-- Área de Resultados -->
+                            <div v-if="massActionResult" class="mt-3">
+                                <h6>Resultados:</h6>
+                                <div class="p-2 rounded bg-light" style="max-height: 250px; overflow-y: auto;">
+                                    <div v-for="result in massActionResult" :key="result.node" class="mb-2 p-2 rounded border" :class="result.status === 'success' ? 'border-success' : 'border-danger'">
+                                        <strong>{{ result.node }}:</strong>
+                                        <span class="badge ms-2" :class="result.status === 'success' ? 'bg-success' : 'bg-danger'">{{ result.status }}</span>
+                                        <div class="mt-1" v-html="formatApiMessage(result.message)"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-end mt-4">
+                                <button type="button" class="btn btn-secondary me-2" @click="closeMassActionModal" :disabled="isMassActionLoading">
+                                    <i class="fas fa-times"></i> Cancelar
+                                </button>
+                                <button type="submit" class="btn btn-primary" :disabled="isMassActionLoading">
+                                    <span v-if="isMassActionLoading">
+                                        <i class="fas fa-spinner fa-spin"></i> Executando...
+                                    </span>
+                                    <span v-else>
+                                        <i class="fas fa-play"></i> Executar Ação
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="showMassActionModal" class="modal-backdrop fade show"></div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const { createApp } = Vue
+        const baseURL = window.location.protocol + '//' + window.location.host
+
+        createApp({
+            data() {
+                return {
+                    username: '',  // Será preenchido após autenticação
+                    currentView: 'nodes',
+                    nodeName: '',
+                    results: [],
+                    lastUpdate: null,
+                    searchTimeout: null,
+                    poolName: '',
+                    poolSearch: '',
+                    availablePools: [],
+                    poolResults: [],
+                    lastPoolUpdate: null,
+                    autoRefreshEnabled: false,
+                    refreshInterval: 30,
+                    refreshTimer: null,
+                    restartStatus: {},
+                    restartMonitorTimers: {},
+                    isLoading: false,
+                    selectedNodeName: '',
+                    cleanOptForm: {},
+                    cleanOptCredentials: {
+                        username: '',
+                        password: ''
+                    },
+                    cleanOptResult: null,
+                    isCleanOptLoading: false,
+                    outOfMemoryForm: {},
+                    outOfMemoryCredentials: {
+                        username: '',
+                        password: ''
+                    },
+                    outOfMemoryResult: null,
+                    isOutOfMemoryLoading: false,
+                    currentTheme: localStorage.getItem('theme') || 'light',
+                    operationLogs: [],
+                    operationLogTimer: null,
+                    showLogPanel: false,
+                    globalError: null,
+                    selectedNodes: [],
+                    sequentialRestartInProgress: false,
+                    sequentialRestartQueue: [],
+                    sequentialBatchSize: 1, // NOVO: quantidade de nodes por vez
+                    sequentialRestartStopRequested: false, // NOVO: flag para parar
+                    voiceAssistantEnabled: false,
+                    // Propriedades para o Modal de Ações em Massa
+                    showMassActionModal: false,
+                    massActionType: null, // 'clean' ou 'move'
+                    massActionCredentials: {
+                        username: '',
+                        password: ''
+                    },
+                    isMassActionLoading: false,
+                    massActionResult: null,
+                    missingBalancers: [], // NOVO: lista de balanceadores sem retorno
+                }
+            },
+            computed: {
+                filteredPools() {
+                    if (!this.poolSearch) return this.availablePools;
+                    const search = this.poolSearch.toLowerCase();
+                    return this.availablePools.filter(pool => 
+                        pool.toLowerCase().includes(search)
+                    );
+                },
+                allNodesSelected() {
+                    // Retorna true se todos os nodes pesquisados estão selecionados
+                    const allNodes = this.getAllNodeNames();
+                    return allNodes.length > 0 && allNodes.every(n => this.selectedNodes.includes(n));
+                },
+            },
+            methods: {
+                async logout() {
+                    // Remover cookie de sessão
+                    document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    // Redirecionar para página de login
+                    window.location.href = '/login';
+                },
+                async getUserInfo() {
+                    try {
+                        const response = await axios.get(`${baseURL}/user/info`);
+                        if (response.data) {
+                            this.username = response.data.username;
+                        } else {
+                            window.location.href = '/login';
+                        }
+                    } catch (error) {
+                        console.error('Erro ao obter informações do usuário:', error);
+                        window.location.href = '/login';
+                    }
+                },
+                toggleAutoRefresh() {
+                    this.autoRefreshEnabled = !this.autoRefreshEnabled;
+                    if (this.autoRefreshEnabled && this.nodeName) {
+                        this.startAutoRefresh();
+                    } else {
+                        this.stopAutoRefresh();
+                    }
+                },
+                startAutoRefresh() {
+                    this.stopAutoRefresh(); // Limpa timer existente
+                    this.getNodeStatus(); // Faz primeira consulta
+                    this.refreshTimer = setInterval(() => {
+                        if (this.nodeName) {
+                            this.getNodeStatus();
+                        } else {
+                            this.stopAutoRefresh();
+                        }
+                    }, this.refreshInterval * 1000);
+                },
+                stopAutoRefresh() {
+                    if (this.refreshTimer) {
+                        clearInterval(this.refreshTimer);
+                        this.refreshTimer = null;
+                    }
+                },
+                handleNodeInput(e) {
+                    this.nodeName = e.target.value.toUpperCase();
+                },
+                async getNodeStatus() {
+                    if (!this.nodeName) return;
+
+                    try {
+                        this.isLoading = true;
+                        this.globalError = null;
+                        const response = await axios.get(`${baseURL}/node/${this.nodeName}`);
+                        this.results = response.data;
+                        this.lastUpdate = new Date().toLocaleTimeString();
+
+                        // NOVO: Verifica se todos os balanceadores retornaram
+                        const expectedBalancers = [
+                            "BIGIP-CYOI", "BIGPI02-CCS", "BIGP2007", "BIGP4007", "BIGP2006", "BIGP4006"
+                        ];
+                        const returnedBalancers = this.results.map(r => r.balancer);
+                        const missingBalancers = expectedBalancers.filter(b => !returnedBalancers.includes(b));
+                        this.missingBalancers = missingBalancers; // Adiciona propriedade reativa
+
+                        // Limpa selectedNodes para manter apenas nodes presentes nos resultados
+                        const allNodes = this.getAllNodeNames();
+                        this.selectedNodes = this.selectedNodes.filter(n => allNodes.includes(n));
+                    } catch (error) {
+                        this.globalError = error.response?.data?.error || "Erro ao consultar node";
+                        console.error('Erro:', error);
+                    } finally {
+                        this.isLoading = false;
+                    }
+                },
+                async setNodeOffline(nodeName) {
+                    if (confirm(`Confirma desabilitar o node ${nodeName}?`)) {
+                        try {
+                            const response = await axios.post(`${baseURL}/node/${nodeName}/offline`);
+                            this.updateResults(response.data);
+                            setTimeout(() => this.getNodeStatus(), 2000);
+                        } catch (error) {
+                            console.error('Erro:', error);
+                        }
+                    }
+                },
+                async enableNode(nodeName) {
+                    try {
+                        const response = await axios.post(`${baseURL}/node/${nodeName}/enable`);
+                        this.updateResults(response.data);
+                        setTimeout(() => this.getNodeStatus(), 2000);
+                    } catch (error) {
+                        console.error('Erro:', error);
+                    }
+                },
+                async setNodeOfflineForBalancer(nodeName, balancer) {
+                    if (confirm(`Confirma desabilitar o node ${nodeName} no balanceador ${balancer}?`)) {
+                        try {
+                            const response = await axios.post(`${baseURL}/node/${nodeName}/offline/${balancer}`);
+                            this.updateResults(response.data);
+                            setTimeout(() => this.getNodeStatus(), 2000);
+                        } catch (error) {
+                            console.error('Erro:', error);
+                        }
+                    }
+                },
+                async enableNodeForBalancer(nodeName, balancer) {
+                    try {
+                        const response = await axios.post(`${baseURL}/node/${nodeName}/enable/${balancer}`);
+                        this.updateResults(response.data);
+                        setTimeout(() => this.getNodeStatus(), 2000);
+                    } catch (error) {
+                        console.error('Erro:', error);
+                    }
+                },
+                isNodeRestarting(nodeName) {
+                    return this.restartStatus[nodeName] && 
+                           this.restartStatus[nodeName].status !== 'completed' && 
+                           this.restartStatus[nodeName].status !== 'error';
+                },
+                startRestartMonitoring(nodeName) {
+                    // Limpa timer existente se houver
+                    if (this.restartMonitorTimers[nodeName]) {
+                        clearInterval(this.restartMonitorTimers[nodeName]);
+                    }
+                    // Inicia novo monitoramento
+                    this.restartMonitorTimers[nodeName] = setInterval(async () => {
+                        try {
+                            const response = await axios.get(`${baseURL}/node/${nodeName}/restart-status`);
+                            this.restartStatus[nodeName] = response.data;
+                            // Se o processo terminou (sucesso ou erro), para o monitoramento
+                            if (['completed', 'error'].includes(response.data.status)) {
+                                clearInterval(this.restartMonitorTimers[nodeName]);
+                                delete this.restartMonitorTimers[nodeName];
+                                // ATUALIZAÇÃO EFICIENTE: Atualiza apenas o node que finalizou.
+                                this.updateSingleNodeStatus(nodeName);
+                            }
+                        } catch (error) {
+                            console.error('Erro ao monitorar status:', error);
+                            // Para o monitoramento em caso de erro na requisição
+                            clearInterval(this.restartMonitorTimers[nodeName]);
+                            delete this.restartMonitorTimers[nodeName];
+                        }
+                    }, 2000); // Verifica a cada 2 segundos
+                },
+                async updateSingleNodeStatus(nodeName) {
+                    try {
+                        const response = await axios.get(`${baseURL}/node-status/${nodeName}`);
+                        const updatedData = response.data;
+
+                        // Itera sobre os resultados atuais para encontrar e atualizar o node
+                        this.results.forEach(balancerResult => {
+                            const nodeIndex = balancerResult.nodes.findIndex(n => n.servidor === nodeName);
+                            if (nodeIndex !== -1) {
+                                // Encontra o dado correspondente no retorno da API
+                                const updatedBalancerData = updatedData.find(b => b.balancer === balancerResult.balancer);
+                                if (updatedBalancerData && updatedBalancerData.nodes.length > 0) {
+                                    // Substitui o objeto do node antigo pelo novo
+                                    balancerResult.nodes.splice(nodeIndex, 1, updatedBalancerData.nodes[0]);
+                                }
+                            }
+                        });
+                        this.lastUpdate = new Date().toLocaleTimeString(); // Atualiza o timestamp
+                    } catch (error) {
+                        console.error(`Erro ao atualizar status do node ${nodeName}:`, error);
+                    }
+                },
+                async restartCompleteNode(nodeName) {
+                    // Removido o confirm daqui para evitar confirmação dupla
+                    try {
+                        this.startRestartMonitoring(nodeName);
+                        // Apenas inicia o processo. O monitoramento cuidará da atualização do status.
+                        await axios.post(`${baseURL}/node/${nodeName}/restart-complete`);
+                    } catch (error) {
+                        console.error('Erro:', error);
+                        this.restartStatus[nodeName] = {
+                            status: 'error',
+                            progress: 100,
+                            message: `Erro: ${error.message}`
+                        };
+                    }
+                },
+                async sequentialRestartNodes() {
+                    if (!this.selectedNodes.length) return;
+                    if (!confirm(`Confirma o restart sequencial dos nodes: ${this.selectedNodes.join(', ')}?`)) {
+                        return;
+                    }
+
+                    this.sequentialRestartInProgress = true;
+                    this.sequentialRestartStopRequested = false; // NOVO: reset flag
+                    this.sequentialRestartQueue = [...this.selectedNodes];
+
+                    const nodesToRestart = [...this.selectedNodes];
+                    const batchSize = Math.max(1, this.sequentialBatchSize);
+
+                    for (let i = 0; i < nodesToRestart.length; i += batchSize) {
+                        if (this.sequentialRestartStopRequested) {
+                            // NOVO: interrompe o sequencial
+                            this.sequentialRestartInProgress = false;
+                            this.sequentialRestartQueue = [];
+                            alert("Sequencial interrompido pelo usuário.");
+                            return;
+                        }
+                        const batch = nodesToRestart.slice(i, i + batchSize);
+
+                        // Remove do queue os que estão no batch
+                        this.sequentialRestartQueue = this.sequentialRestartQueue.filter(n => !batch.includes(n));
+
+                        // Inicia restart para todos do batch em paralelo
+                        await Promise.all(batch.map(nodeName => this.restartCompleteNode(nodeName)));
+
+                        // Aguarda todos do batch finalizarem
+                        const batchResults = await Promise.all(batch.map(nodeName => this.waitNodeRestartFinish(nodeName)));
+
+                        // Se algum falhar, interrompe tudo
+                        if (batchResults.some(success => !success)) {
+                            alert(`O restart de um dos nodes do lote falhou. A sequência foi interrompida para evitar problemas.`);
+                            this.sequentialRestartInProgress = false;
+                            this.sequentialRestartQueue = [];
+                            return;
+                        }
+                    }
+
+                    this.sequentialRestartInProgress = false;
+                    this.sequentialRestartQueue = [];
+                    alert("Restart sequencial concluído com sucesso para todos os nodes selecionados.");
+                },
+                // NOVO: método para parar o sequencial
+                confirmStopSequentialRestart() {
+                    if (confirm("Tem certeza que deseja parar o sequencial?\nO lote atual será concluído, mas os próximos não serão executados.")) {
+                        this.stopSequentialRestart();
+                        alert("Sequencial será interrompido após o lote atual. Nenhum novo node será reiniciado.");
+                    }
+                },
+                stopSequentialRestart() {
+                    this.sequentialRestartStopRequested = true;
+                },
+                async waitNodeRestartFinish(nodeName) {
+                    // Aguarda até o status do node ser 'completed' ou 'error'
+                    // Retorna true para sucesso e false para erro.
+                    const maxAttempts = 180; // Timeout de 6 minutos (180 * 2s)
+                    let attempts = 0;
+
+                    while (attempts < maxAttempts) {
+                        const status = this.restartStatus[nodeName]?.status;
+
+                        if (status === 'completed') {
+                            return true; // Sucesso
+                        }
+                        
+                        if (status === 'error') {
+                            return false; // Falha
+                        }
+
+                        await new Promise(r => setTimeout(r, 2000)); // Espera 2 segundos
+                        attempts++;
+                    }
+                    
+                    // Se sair do loop por timeout, considera como falha
+                    this.restartStatus[nodeName] = {
+                        status: 'error',
+                        progress: 100,
+                        message: 'Timeout: O restart demorou muito para responder.'
+                    };
+                    return false;
+                },
+                updateResults(newResults) {
+                    this.results = this.results.map(result => {
+                        const newResult = newResults.find(nr => nr.balancer === result.balancer);
+                        return newResult || result;
+                    });
+                    this.lastUpdate = new Date().toLocaleTimeString();
+                },
+                getStatusBadgeClass(node) {
+                    if (!node.found) return 'bg-secondary';
+                    return {
+                        'bg-success': node.status === 'enabled',
+                        'bg-warning': node.status === 'disabled',
+                        'bg-danger': node.status === 'offline'
+                    };
+                },
+                hasEnabledStatus(result) {
+                    return result.nodes?.some(node => node.status === 'enabled');
+                },
+                hasDisabledStatus(result) {
+                    return result.nodes?.some(node => node.status === 'disabled');
+                },
+                hasOfflineStatus(result) {
+                    return result.nodes?.some(node => node.status === 'offline' || !node.found);
+                },
+                async loadPools() {
+                    try {
+                        const response = await axios.get(`${baseURL}/pools`);
+                        this.availablePools = response.data;
+                    } catch (error) {
+                        console.error('Erro ao carregar pools:', error);
+                    }
+                },
+                async getPoolMembers() {
+                    if (!this.poolName) return;
+                    try {
+                        const response = await axios.get(`${baseURL}/pool/${this.poolName}`);
+                        this.poolResults = response.data;
+                        this.lastPoolUpdate = new Date().toLocaleTimeString();
+                    } catch (error) {
+                        console.error('Erro:', error);
+                    }
+                },
+                clearPoolSelection() {
+                    this.poolName = '';
+                    this.poolResults = [];
+                },
+                selectPool(pool) {
+                    this.poolName = pool;
+                    this.getPoolMembers();
+                },
+                getPoolStatusBadge(result) {
+                    const totalMembers = result.members.length;
+                    const enabledMembers = result.members.filter(m => m.state === 'enabled').length;
+                    
+                    if (enabledMembers === totalMembers) return 'bg-success';
+                    if (enabledMembers === 0) return 'bg-danger';
+                    return 'bg-warning';
+                },
+                getMembersStatus(result) {
+                    const total = result.members.length;
+                    const enabled = result.members.filter(m => m.state === 'enabled').length;
+                    return `${enabled}/${total} ativos`;
+                },
+                getMemberStatusClass(member) {
+                    return {
+                        'status-enabled': member.state === 'enabled',
+                        'status-disabled': member.state === 'disabled',
+                        'status-offline': member.state === 'offline'
+                    };
+                },
+                getMemberStatusBadge(member) {
+                    return {
+                        'bg-success': member.state === 'enabled',
+                        'bg-warning': member.state === 'disabled',
+                        'bg-danger': member.state === 'offline'
+                    };
+                },
+                async fetchOperationLogs() {
+                    try {
+                        const response = await axios.get(`${baseURL}/operation-logs`);
+                        this.operationLogs = response.data;
+                    } catch (e) {
+                        // Silencioso
+                    }
+                },
+                formatLogTime(ts) {
+                    if (!ts) return '';
+                    const d = new Date(ts * 1000);
+                    return d.toLocaleTimeString();
+                },
+                toggleLogPanel() {
+                    this.showLogPanel = !this.showLogPanel;
+                },
+                setTheme(theme) {
+                    this.currentTheme = theme;
+                    document.documentElement.setAttribute('data-theme', theme);
+                    localStorage.setItem('theme', theme);
+                },
+                switchView(view) {
+                    this.currentView = view;
+                    if (view === 'pools' && this.availablePools.length === 0) {
+                        this.loadPools();
+                    }
+                },
+                getAllNodeNames() {
+                    // Retorna todos os nomes de nodes exibidos nos resultados
+                    const names = [];
+                    this.results.forEach(result => {
+                        if (result.nodes) {
+                            result.nodes.forEach(node => {
+                                if (!names.includes(node.servidor)) {
+                                    names.push(node.servidor);
+                                }
+                            });
+                        }
+                    });
+                    return names;
+                },
+                isNodeSelected(nodeName) {
+                    return this.selectedNodes.includes(nodeName);
+                },
+                toggleNodeSelection(nodeName) {
+                    const idx = this.selectedNodes.indexOf(nodeName);
+                    if (idx === -1) {
+                        this.selectedNodes.push(nodeName);
+                    } else {
+                        this.selectedNodes.splice(idx, 1);
+                    }
+                },
+                toggleSelectAllNodes() {
+                    const allNodes = this.getAllNodeNames();
+                    if (this.allNodesSelected) {
+                        this.selectedNodes = [];
+                    } else {
+                        this.selectedNodes = [...allNodes];
+                    }
+                },
+                massEnableNodes() {
+                    // Habilita todos os nodes selecionados em todos os balanceadores
+                    this.selectedNodes.forEach(nodeName => {
+                        this.enableNode(nodeName);
+                    });
+                },
+                massDisableNodes() {
+                    this.selectedNodes.forEach(nodeName => {
+                        this.setNodeOffline(nodeName);
+                    });
+                },
+                massRestartNodes() {
+                    // Volta ao comportamento antigo: apenas chama restartCompleteNode para cada node selecionado
+                    this.selectedNodes.forEach(nodeName => {
+                        this.restartCompleteNode(nodeName);
+                    });
+                },
+                toggleCleanForm(nodeName) {
+                    // Alterna a exibição do formulário de limpeza para o node
+                    this.cleanOptForm[nodeName] = !this.cleanOptForm[nodeName];
+                    // Limpa resultado e credenciais ao abrir
+                    if (this.cleanOptForm[nodeName]) {
+                        this.cleanOptCredentials = { username: '', password: '' };
+                        this.cleanOptResult = null;
+                    }
+                },
+                toggleOutOfMemoryForm(nodeName) {
+                    // Alterna a exibição do formulário de outofmemory para o node
+                    this.outOfMemoryForm[nodeName] = !this.outOfMemoryForm[nodeName];
+                    // Limpa resultado e credenciais ao abrir
+                    if (this.outOfMemoryForm[node.servidor]) {
+                        this.outOfMemoryCredentials = { username: '', password: '' };
+                        this.outOfMemoryResult = null;
+                    }
+                },
+                async executeCleanOpt(nodeName) {
+                    this.isCleanOptLoading = true;
+                    this.cleanOptResult = null;
+                    try {
+                        const payload = {
+                            nodes: nodeName,
+                            username: this.cleanOptCredentials.username,
+                            password: this.cleanOptCredentials.password
+                        };
+                        const response = await axios.post(`${baseURL}/clean-opt-disk`, payload);
+                        this.cleanOptResult = response.data;
+                    } catch (e) {
+                        this.cleanOptResult = { status: 'error', node: nodeName, message: e.message };
+                    } finally {
+                        this.isCleanOptLoading = false;
+                    }
+                },
+                async executeOutOfMemory(nodeName) {
+                    this.isOutOfMemoryLoading = true;
+                    this.outOfMemoryResult = null;
+                    try {
+                        const payload = {
+                            nodes: nodeName,
+                            username: this.outOfMemoryCredentials.username,
+                            password: this.outOfMemoryCredentials.password
+                        };
+                        const response = await axios.post(`${baseURL}/move-outofmemory`, payload);
+                        this.outOfMemoryResult = response.data;
+                    } catch (e) {
+                        this.outOfMemoryResult = { status: 'error', node: nodeName, message: e.message };
+                    } finally {
+                        this.isOutOfMemoryLoading = false;
+                    }
+                },
+                toggleVoiceAssistant() {
+                    this.voiceAssistantEnabled = !this.voiceAssistantEnabled;
+                    if (this.voiceAssistantEnabled) {
+                        this.startVoiceRecognition();
+                    } else {
+                        this.stopVoiceRecognition();
+                    }
+                },
+                startVoiceRecognition() {
+                    if (!('webkitSpeechRecognition' in window)) {
+                        alert("API de reconhecimento de voz não suportada neste navegador.");
+                        this.voiceAssistantEnabled = false;
+                        return;
+                    }
+
+                    this.recognition = new webkitSpeechRecognition();
+                    this.recognition.continuous = false;
+                    this.recognition.lang = 'pt-BR';
+                    this.recognition.interimResults = false;
+                    this.recognition.maxAlternatives = 1;
+
+                    this.recognition.onstart = () => {
+                        console.log("Reconhecimento de voz iniciado.");
+                    };
+
+                    this.recognition.onresult = (event) => {
+                        const transcript = event.results[0][0].transcript.toLowerCase();
+                        console.log("Transcrição:", transcript);
+                        this.processVoiceCommand(transcript);
+                    };
+
+                    this.recognition.onerror = (event) => {
+                        console.error("Erro de reconhecimento de voz:", event.error);
+                    };
+
+                    this.recognition.onend = () => {
+                        console.log("Reconhecimento de voz finalizado.");
+                        if (this.voiceAssistantEnabled) {
+                            // Reinicia a escuta se o assistente ainda estiver habilitado
+                            setTimeout(() => {
+                                this.recognition.start();
+                            }, 500); // Pequeno delay para evitar loops
+                        }
+                    };
+
+                    this.recognition.start();
+                },
+                stopVoiceRecognition() {
+                    if (this.recognition) {
+                        this.recognition.stop();
+                        console.log("Reconhecimento de voz interrompido.");
+                    }
+                },
+                async processVoiceCommand(transcript) {
+                    let command = transcript.trim();
+                    if (command.startsWith('ok')) {
+                        command = command.substring(2).trim();
+                    }
+                    if (!command) {
+                        alert("Comando de voz não reconhecido.");
+                        return;
+                    }
+                    try {
+                        // Envia comando para o backend
+                        const response = await axios.post(`${baseURL}/voice-command`, { command });
+                        if (response.data.success) {
+                            alert("Assistente: " + response.data.message);
+                            // Atualiza status dos nodes após comando de restart
+                            if (command.match(/^(w|t|c)\d+$/)) {
+                                setTimeout(() => this.getNodeStatus(), 2000);
+                            }
+                        } else {
+                            alert("Assistente: " + response.data.message);
+                        }
+                    } catch (error) {
+                        alert("Erro ao processar comando de voz: " + (error.response?.data?.detail || error.message));
+                    }
+                },
+                formatApiMessage(message) {
+                    if (typeof message === 'object' && message !== null) {
+                        let output = '';
+                        // Tenta formatar de forma legível se tiver stdout/stderr, que são comuns em respostas de script
+                        if (message.stdout) {
+                            output += `<strong>Saída Padrão:</strong><pre class="bg-dark text-white p-2 rounded small">${message.stdout}</pre>`;
+                        }
+                        if (message.stderr) {
+                            output += `<strong>Saída de Erro:</strong><pre class="bg-dark text-white p-2 rounded small">${message.stderr}</pre>`;
+                        }
+                        // Fallback para qualquer outra estrutura de objeto, exibindo como JSON formatado
+                        if (!output) {
+                            return '<pre>' + JSON.stringify(message, null, 2) + '</pre>';
+                        }
+                        return output;
+                    }
+                    return message; // Retorna a mensagem como está se for uma string
+                },
+
+                // Métodos para o Modal de Ações em Massa
+                openMassActionModal(actionType) {
+                    this.massActionType = actionType;
+                    this.massActionResult = null; // Limpa resultados anteriores
+                    this.massActionCredentials.username = ''; // Limpa credenciais
+                    this.massActionCredentials.password = '';
+                    this.showMassActionModal = true;
+                },
+                closeMassActionModal() {
+                    if (this.isMassActionLoading) return; // Não permite fechar durante o carregamento
+                    this.showMassActionModal = false;
+                },
+                async executeMassAction() {
+                    this.isMassActionLoading = true;
+                    this.massActionResult = [];
+                    const endpoint = this.massActionType === 'clean' ? '/clean-opt-disk' : '/move-outofmemory';
+                    
+                    // Executa as chamadas em paralelo para todos os nós selecionados
+                    const promises = this.selectedNodes.map(nodeName => {
+                        const payload = {
+                            nodes: nodeName,
+                            username: this.massActionCredentials.username,
+                            password: this.massActionCredentials.password
+                        };
+                        return axios.post(`${baseURL}${endpoint}`, payload)
+                            .then(response => {
+                                this.massActionResult.push(response.data);
+                            })
+                            .catch(e => {
+                                this.massActionResult.push({ status: 'error', node: nodeName, message: e.message });
+                            });
+                    });
+
+                    await Promise.all(promises);
+                    this.isMassActionLoading = false;
+                },
+            },
+            mounted() {
+                this.getUserInfo();
+                this.fetchOperationLogs();
+                this.loadPools();
+                // Atualiza a cada 10 segundos
+                setInterval(() => {
+                    this.fetchOperationLogs();
+                }, 10000);
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>
+</body>
+</html>
+</body>
+</html>
+</body>
+</html>
+</html>
+</body>
+</html>

@@ -1,0 +1,1099 @@
+*Incidente:*  Serviço de Autorização - Visa Débito
+
+*Hora Identificação*: * 16h36.
+
+*Impacto*: Pico de erro no ambiente para o Visa Débito - 91: Erro Interno: possível indisponibilidade do Autorizador / Coautorizacao(Parceria/CDO/CDS).
+
+*Causa*: Em análise.
+
+*Chamado: I2508-052644.
+
+*Acionados: * Soluções de Pagamentos e Operações de TI.
+
+*Obs*:Regularizado sem intervenção
+
+*Regularizado*:16h37
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+NEC* - Nova Experiencia de Cartões
+*
+*Incidente*: Erros para Nova Experiência de Cartões
+
+*Hora Inicio*: 08h58
+
+*Impacto*: Erro na Nova Experiencia de Cartões
+
+*Causa*: Em analise.
+
+*Acionados*:  Sistemas De Cartões E Prevenção A Fraudes e Operações de TI
+
+*Obs*: Estamos em conferência para tratativas.
+
+*Regularizado*: --h--
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+*Plataforma siape*:
+ 
+*Incidente*: Rejeições para o produto plataforma-siape
+ 
+*Hora início*: 08h00
+ 
+*Impacto*: Instabilidade no serviço de Encerramento de Contratos
+ 
+*Causa*: Em analise.
+ 
+*Acionados*: Área de Operações de TI
+ 
+*Obs:* Regularizado sem intervenção
+ 
+*Regularizado*: 08h13
+ 
+*Evidência*:
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+*Convenios*
+
+*Incidente*:  Nova instabilidade para trafegar arquivos para as Secretarias de Fazenda devido a instabilidade no ambiente do parceiro E-sales
+
+*Hora inicio*: 13h15
+
+*Impacto*: Falha no envio dos arquivos para as secretarias.
+
+*Causa*: Instabilidade no ambiente de E-sales.
+
+*Acionados*: Área de Gestão De Datacenter e parceiro E-sales
+
+*Obs*.: A janela para esses arquivos é ate as 23h30
+
+*Obs.1*: Entramos em contato com a parceira para análise.
+
+*Canais de Atendimento* - Erros de Clientes Novo IB
+ 
+*Incidente*: Aumento no numero de erros de clientes no Canais de Atendimento para o Novo IB
+ 
+*Hora Início*: 13h05
+ 
+*Impacto*: Utilização do Novo IB
+ 
+*Causa*: Em análise
+ 
+*Acionados*: Área de Operações de TI
+ 
+*Obs*: Executada ações para regularização
+ 
+*Regularizado*: 13h14
+
+GuilhermeR.Duarte
+
+
+Cursos obrigatorios restantes
+Ética, Práticas e Políticas de Uso de Redes Sociais no Sicoob
+Pacto de Ética: uma visão geral
+Programa de Integridade
+Abertura - Riscos e controles
+Conscientização e melhores práticas em Risco e Segurança Cibernéticos
+Controles Internos e Conformidade - uma visão geral
+Fechamento - Riscos e controles
+Gerenciamento de Riscos
+Prevenção a Fraudes - Cooperativas Centrais e CCS
+Prevenção à Lavagem de Dinheiro e ao Financiamento do Terrorismo - PLD/FT
+Proteção das Informações no Sicoob
+
+
+
+###############################
+
+
+CAPES - CONSULTAS
+
+Incidente: Rejeições para consulta no Capes
+
+Hora início: 12h50
+
+Causa: Instabilidade no servidor WASP700 
+
+Impacto: Instabilidade para realizar consulta no Capes
+
+Obs: Realizado ações de 1° nível
+
+Acionados: Área de Operações de TI
+
+Regularizado: 12h57
+
+
+09H15 SPI LANCAMENTO EXTRAÇÃO E RECEBIMENTO
+SPI INTEGRAÇÃO PAGAMENTOS
+
+*Canais de Atendimento* - Caixa
+
+*Incidente*: Instabilidade para transações no Caixa.  
+
+*Hora inicio*: 09h24
+
+*Impacto*: Transações de Caixa
+
+*Causa*: Em análise
+
+*Acionados*: Área de Operações
+
+*Obs*: 
+
+*Regularizado*: --h--
+
+
+*SLC*
+
+*Incidente*: Erro na Liquidação do Arquivo de Retorno para o Produto Débito Credenciadora SIPAG.
+
+*Hora inicio*: 09h.
+
+*Impacto*: Atraso no processamento do arquivo de retorno. 
+
+*Causa*: Os arquivos de liquidação foram aprovados pela Área de Negócios sem o financeiro. 
+
+*Acionados*: Área de Sistemas De Adquirência.
+
+*Obs*.: A janela para recebimento do arquivo de retorno é até às 14h30.
+
+####################
+
+
+*Canais de Atendimento* - Erros de Clientes
+ 
+*Incidente*: Aumento no numero de erros de clientes no Canais de Atendimento
+ 
+*Hora Início*: 09h15
+ 
+*Impacto*: Utilização dos Canais de Atendimento
+ 
+*Causa*: Em análise
+ 
+*Acionados*: Área de Gestão de Datacenter, Área de Infraestura, Defesa Cibernética
+
+*Regularizado*
+
+
+appPJ
+
+
+
+Autorizador Adquirente
+
+Incidente: Aumento de transações com desfazimento.
+
+Hora Identificação: 11h07
+
+Impacto: Aumento de transações com desfazimento
+
+Causa: Em analise.
+ 
+Acionados: Pedro Sistemas de Adquirencia e LYRA.
+ 
+Obs: Analista acionado e verificando.
+
+Regularizado: 11h17
+
+
+
+*FECHAMENTO CONFEDERAÇÃO 2ª PARTE*
+ 
+*Incidente*: Erro na execução do Produto/Processo: 10875- RELATÓRIOS TITULOS DESCONTADOS / [PAR] REL DIARIOS CHEQUES DEVOLVIDOS PAGOS para várias cooperativas
+ 
+*Hora: 03h00
+ 
+*Impacto*: Atraso no fechamento para as cooperativas
+
+*Causa*: Em analise.
+ 
+*Chamado*: I2509-072746
+ 
+*Acionados*: Realizado contato com o Sr. Mauro Cesar Ferreira (Área de Soluções de Canais) para análise e tratamento.
+ 
+*Obs*.: Analista acionado tratando o erro.
+ 
+*Regularizado*: --h--
+
+##########################
+
+Autorizador Emissor
+ 
+Incidente: Aumento de Standin Negada para o comércio FARMA VIP TEIXEIRA  na Bandeira VISA
+ 
+Hora Identificação: 03h40
+ 
+Impacto: Não há.
+ 
+Causa: Ataque massivo de tentativa de fraude.
+ 
+Acionados: (Área de Prevenção à fraude)
+ 
+Obs:  O time de fraude realizou o bloqueio preventivo do Comercio. segue analisando o caso.
+
+Regularizado: --h--
+
+
+*Bloqueio* - Bases SQL
+
+*Incidente*: Bloqueios em base de dados SQL.   
+
+*Hora inicio*: 10h30
+
+*Impacto*: Utilização dos Canais de Atendimento
+
+*Causa*: servidor SQLProd31
+
+*Trecho da Instrução bloqueadora*: int,@P1 int,@P2 bigint,@P3 decimal(38,4),@P4 int,@P5 int,@P6 int,@P7 varchar(8000),@P8 int,@P9 int,@P10 varchar(8000),@P11 int) spu_Rem_BloqueioAplic  
+ 
+
+*Obs*: Executado ações para eliminar processo bloqueador no servidor SQLProd31
+
+*Regularizado*: 10:46
+
+##############################
+
+
+*APIC Interno* itx-dataprev-emprestimo-consignado-trabalhador:
+ 
+*Incidente*: Rejeições para o produto itx-dataprev-emprestimo-consignado-trabalhador
+ 
+*Hora início*: 20h59
+ 
+*Causa*: Em analise.
+ 
+*Impacto*: Instabilidade no serviço /itx-econsig-trabalhador/v1/trabalhadores/autorizar-consulta-dados-trabalhador:POST
+ 
+*Resolução*: Realizado ações de 1º nível, regularizando o ambiente.
+ 
+*Regularizado*: 21h07
+
+*ITX* - Integrações Externas
+ 
+*Incidente*: Instabilidade para serviços que utilizam  integrações externa
+ 
+*Hora início*: 12h07
+ 
+*Causa*: Em análise
+ 
+*Impacto*: Serviços de Integrações externas
+ 
+*Acionados*: Área de Operações de TI
+ 
+*Obs*: Regularizado sem intervenção
+ 
+*Regularizado*: 12:10
+
+
+I2509-286512
+
+*Pix* 
+
+*Incidente*: Instabilidade para a leitura de QR Code
+
+*Hora Início*: 12h20
+ 
+*Causa*:  Em analise
+
+*Impacto:* falha ao tentar decodificar QR Codes 
+ 
+*Obs*.: O erro ocorre por lentidão para decodificação de QRCode da IF Stone, não há problemas no ambiente CCS.
+ 
+*Acionados*: Área de Operações de TI
+
+*Regularizado*:  --h--
+ 
+ 
+*Sisbr* - Plataforma de Atendimento
+ 
+*Incidente*: Rejeições nas transações na integração com o GED
+ 
+*Hora Inicio*: 12h05
+ 
+*Impacto*: Instabildiade para transação OBTER DEFINICOES nos serviços que integram com o GED
+ 
+*Causa*: Falhas nos servidores que hospedam os serviços GED. Servidores - WASP2435,WASP2237
+ 
+*Acionados*: Área de Operações de TI
+ 
+*Obs*: Regularizado após ação de 1° nível
+ 
+*Regularizado*: 12h08
+
+#####################
+
+
+*Compensação*  - Devolução Diurna
+ 
+*Incidente*: Falha no envio de arquivos de Devolução de cheques para várias cooperativas 
+ 
+*Hora Início*: 15h00
+ 
+*Impacto*: Atraso para processamento de arquivos de Devoluçao de Cheques Diurnos
+ 
+*Causa*: Em analise 
+ 
+*Acionados*: Área de Operações de TI,  Gestão de Data Center e Gestão e Operações Bancárias II
+
+*OBS*: A Janela de processamento é até as 15h.
+
+*Sisbr* - Plataforma de Risco
+ 
+*Incidente*: Instabilidade nas transações da Plataforma de Risco no Sisbr 2.0
+ 
+*Hora Inicio*: 12h12
+ 
+*Impacto*: Alto tempo de resposta para as transações da Plataforma e integrações com o Risco
+ 
+*Causa*: Em análise
+ 
+*Acionados*: Área de Operações de TI
+ 
+*Obs*: Regularizado após ações de 1º nível.
+ 
+*Regularizado*: 12h26
+
+
+*Pix* 
+
+*Incidente*: Instabilidade para a leitura de QR Code
+
+*Hora Início*: 17h30
+ 
+*Causa*:  Em analise
+
+*Impacto*: falha ao tentar decodificar QR Codes 
+ 
+*Obs*.: O erro ocorre por lentidão para decodificação de QRCode da IF ASAAS, não há problemas no ambiente CCS.
+ 
+*Acionados*: Área de Operações de TI
+
+*Regularizado*:  --h--
+
+
+*Canais de Atendimento* - APP Sicoob  PJ
+
+*Incidente*: Instabilidade para utilização do APP Sicoob  PJ
+
+*Hora inicio*: 12h55
+
+*Impacto*: Utilização do APP Sicoob PJ
+
+*Causa*: Instabilidade nos servidores 
+
+*Acionados*: Área de Operações de TI
+
+*Obs*: Executada ações de 1º nível para regularização .
+
+*Regularizado*:12h59
+
+
+################################
+
+*Canais de Atendimento* - SEFAZ-BA
+ 
+*Incidente*: Indisponibilidade para a transação (OBTSEFBA) de pagamento de convênios junto a Sefaz-BA.
+ 
+*Hora Inicio*: 11h50
+ 
+*Impacto*: Instabilidade nas transações de arrecadação de convênios junto a Sefaz-BA.
+ 
+*Acionados*: Operações de TI e DataCenter, SEFAZ-BA
+
+*OBS*: o erro é por falha no link junto a operadora OI , aberto chamado na operadora.
+
+
+*Regularizado*: --h--
+
+
+###########################
+
+*Fechamento Agendado* - SWS  
+
+*Incidente*: Erro para o fluxo[CNV] ENVIAR TEDS SSPB
+
+*Hora Identificação*:  06h45
+
+*Impacto*: Atraso na transferência de TEDS de convênios para o SSPB
+
+*Causa*: Em análise pelo analista responsável
+
+*Acionados*:  Sistemas De Conta Corrente, Convênios E Cobrança, Sistemas De Cartões E Prevenção A Fraudes
+
+*Obs*: A janela de processamento até as 17h.
+ 
+*Monitoração AWS*
+
+*Incidente*: Instabilidade para acesso a plataforma de monitoração AWS
+
+*Hora Identificação*: 07h20
+
+*Impacto*: Acesso a monitoração do Grafana no AWS
+
+*Causa*: Em análise.
+
+*Acionados*: Área de Infraestrutura
+
+*Obs*: O problema para acesso a plataforma de monitoração ocorre para alguns usuários
+
+*Regularizado*: --h--
+
+
+#############################
+
+*Convenios*
+
+*Incidente*: Falha para trafegar arquivos para a SEFAZ-PR.
+
+*Hora inicio*: 12h00
+
+*Impacto*: Falha no envio dos arquivos para o parceiro SEFAZ-PR, devido a queda no link da operadora Embratel.
+
+*Causa*: Falha no link da ponta remota de MG.
+
+*Acionados*: (Gestão De Datacenter) e Celepar
+
+*Obs*.: Aberto o chamado a operadora Embratel e estamos aguardando o reparo.
+
+*Obs*: A janela de processamento de arquivo é até as 23h30
+
+*Regularizado*: --h--
+
+
+*Canais de Atendimento* - Caixa
+
+*Incidente*: Instabilidade para utilização do Caixa.  
+
+*Hora inicio*: 12h24
+
+*Impacto*: Utilização do Canal Caixa
+
+*Causa*: Em análise
+
+*Acionados*: Área de Soluções de Canais, Área de Infraestrutura, Área de Arquitetura e Área de Gestão de Data Center.
+
+*Obs*: 
+
+Regularizado: --h--
+
+
+ Está impacto para as transação de pagamento de convênios com Sefaz-PR.
+ 
+ 
+Moção as pessoas têm muitos medos, mas nunca estaremos sozinhos ,o senhor sempre estará conosco.
+Em quais áreas e situações da nossa vida nós precisamos ser forte e corajosos?
+Tema: Isto é uma ordem: ser forte e corajoso porque o senhor está contigo !
+Josué 1,9
+
+
+
+*Bloqueio* - Bases SQL
+
+*Incidente*: Bloqueios em base de dados SQL.   
+
+*Hora inicio*: 16h50
+
+*Impacto*: Utilização dos Canais de Atendimento, API do PIX.
+
+*Causa*: Bloqueio oriundo de máquinas de processamento do Conta Corrente.
+
+*Trecho da Instrução bloqueadora*: dbo.SP_EfetuarLancamentoDigital
+
+Obs: Executada ações para eliminação do bloqueio no servidor SQLProd33
+
+Regularizado: 16h56
+
+*Connect Interno* itx-bbfgo-pronampe
+
+*Incidente*: Rejeições para as transações do módulo   itx-bbfgo-pronampe
+
+*Inicio*: 14h30
+
+*Causa*: Em analise
+
+*Impacto*: Instabilidade para a transação de  de crédito facilitado para microempresas e empresas de pequeno porte
+
+*Acionados*: Área de Crédito
+
+*Regularizado*: 
+
+##########################
+
+
+*APIC Interno* - RHS-Successfactors
+ 
+*Incidente*: Instabilidade para verificação de perfil no modulo Gestão de Pessoas
+ 
+*Hora Identificação*: 15h42
+
+*Impacto*: Verificação de perfil no modulo Gestão de Pessoas
+ 
+*Causa*: Em análise
+
+*Acionados*: Área de Operações de TI 
+ 
+*Obs*.: Regularizado após ação de 1º nível
+
+*Regularizado*: 15h44
+
+update EFN.TITULOAPAGARPARCELA
+set IDSITUACAOPARCELAAPAGAR = 5
+where IDTITULOAPAGAREFN in (12403373,12403387,12403495,12534716);
+commit;
+
+
+*Canais de Atendimento* - Erros de Clientes Novo IB
+ 
+*Incidente*: Aumento no numero de erros de clientes no Canais de Atendimento para o Novo IB
+ 
+*Hora Início*: 08h40
+ 
+*Impacto*: Utilização do Novo IB
+ 
+*Causa*: Em análise
+ 
+*Acionados*: Área de Operações de TI
+ 
+*Obs*: 
+ 
+*Regularizado*: 08h42
+ 
+ 
+ 
+#########################################
+
+
+*ctz-carteirizacao*
+ 
+*Incidente*: Rejeições para o APIC do ctz-carteirizacao
+ 
+*Hora início*: 09h35
+ 
+*Impacto*: Instabilidade no serviço de agendamento
+ 
+*Causa*: Em analise 
+ 
+*Acionados*: Área de Operações de TI
+ 
+*Obs*: Realizado ações de 1º nível 
+ 
+*Regularizado*: 09h42
+
+
+#############
+
+*Adquirência PIX*
+
+*Incidente*: Instabilidade  para transações de pagamento na Adquirencia PIX.
+
+*Hora Identificação*: 17h53
+
+*Impacto*: Pagamentos pela Adquirencia PIX.
+
+*Causa*: Em análise.
+
+*Acionados*: Área de Operações de TI
+
+*Obs*.: Regularizado sem intevenção
+
+*Regularizado: 17h55
+
+
+#####################
+
+*Sisbr 2.0 - Plataforma de Crédito*
+ 
+*Incidente*: Rejeições nas transações da Plataforma de Crédito no Sisbr 2.0
+ 
+*Hora Inicio*: 10h15
+ 
+*Impacto*: Instabilidade para as transações de Crédito no Sisb2.0 
+ 
+*Causa*: Em análise
+ 
+*Acionados*: Operações de TI
+ 
+Obs: Realizando ações de 1° nível
+ 
+*Regularizado* 
+
+
+###############################
+
+*APIC* - PCF Bloqueios
+
+*Incidente*: Intabilidade para envio de alertas PCF
+
+*Hora Inicio*: 12h46
+
+*Impacto*: Envio de alertas pela Plataforma de Combate a Fraude - PCF
+
+*Causa*:Em análise
+
+*Acionados*: Área de Operações de TI
+
+*Obs*: Executando ações para regularização
+
+*Regularizado*: --h--
+
+
+*Open finance Corporativo*
+
+*Incidente*: Instabilidade para consulta das contas agregadas no aplicativo
+
+*Hora Início*: 18h23
+
+*Impacto*: Usuários não consegue visualizar as contas conectadas, impactando consultas de saldo, extratos e outras funcionalidades que dependem dessas informações.
+
+*Causa*: Em análise
+
+*Acionados*: Área de operações de TI.
+
+*Obs*.: Realizando ação de 1º nível (restart no opb-corporative-api-backoffice-springboot)
+
+*Regularizado*: --h--
+
+open-banking-consentimento
+
+
+*Open Finance* - Consentimento
+
+*Incidente*: Instabilidade na atualização de consentimentos do Open Finance.
+
+*Hora Início*: 10h45
+
+*Impacto*: Falhas no recebimento das atualizações de consentimento entre instituições financeiras. Essa instabilidade pode impactar a sincronização das autorizações dos clientes e atrasar consultas ou operações.
+
+*Causa*: Em análise
+
+*Acionados*: Área de Operações de TI e Arquitetura de TI (Fernando Loureiro)
+
+*Regularizado*: --h--
+
+obr-api-spi-openbanking-springboot
+
+
+*APIC Interno* itx-dataprev-emprestimo-consignado-trabalhador:
+ 
+*Incidente*: Rejeições para o produto itx-dataprev-emprestimo-consignado-trabalhador
+ 
+*Hora início*: 10h00
+ 
+*Causa*: Em analise.
+ 
+*Impacto*: Instabilidade no serviço /itx-econsig-trabalhador/v1/trabalhadores/autorizar-consulta-dados-trabalhador:POST
+ 
+*Regularizado*:10h15
+
+
+*CAPES Consulta*
+ 
+*Incidente*: Rejeições para as transações do Capes no Sisbr 2.0 e 3.0
+ 
+*Hora Início*: 10h24
+ 
+*Impacto*: Instabilidade para as transações de consulta do Capes
+ 
+*Causa*: Em análise
+ 
+*Acionados*: Área de Operações de TI
+ 
+*Obs*: Realizado ações para regularização
+ 
+*Regularizado*:10h26
+
+####################
+
+*Sisbr* - Cobrança Administrativa
+ 
+*Incidente*: Instabilidade nas transações com integração no COBADM
+ 
+*Hora Inicio*: 10h42
+ 
+*Impacto*: MANTER FICHA DEVEDOR SERVIÇO
+ 
+*Causa*: Instabilidade no servidor do conta corrente. 
+ 
+*Acionados*: Área de Operações de TI
+ 
+*Obs*: Regularizado após ações de 1º nível
+ 
+*Regularizado*: 08h55
+
+
+*Canais de Atendimento - APP PF*
+ 
+*Incidente*: Instabilidade para utilização do APP PF
+ 
+*Hora inicio*: 11h45
+ 
+*Impacto*: Utilização do APP PF
+ 
+*Causa*: Em análise
+ 
+*Acionados*: Área de Operações de TI
+ 
+*Obs: Executando ações de 1º nível para regularização.
+ 
+*Regularizado*: 11h47
+
+
+*ATM* - Terminal de Auto Atendimento
+
+*Incidente*: Rejeições para as transações da utilização da ATM
+
+*Hora Inicio*: 10h12
+
+*Impacto*: Instabilidade para as transações da ATM
+
+*Causa*: Intermitência nos servidores que atendem a ATM.
+
+*Acionados*: Área de Operações de TI
+
+*Obs*: Executada ações de 1º nível para regularização
+
+*Regularizado*:10h29 
+
+
+*Conta corrente renovacao*
+ 
+*Incidente*: Rejeições no conta corrente do Sisbr3.0
+ 
+*Hora Inicio*: 16h09
+ 
+*Impacto*: Instabilidade no serviço de renovação de conta corrente no Sisbr3.0
+ 
+*Causa*: Falha nos servidores
+ 
+*Acionados*: Área de Operações de TI
+ 
+*Obs*: Realizando ação de 1° nível
+ 
+*Regularizado*:
+
+
+*GED Dossie*
+
+*Incidente*: Instabilidade para consultar dossie no GED
+
+*Hora Inicio*: 16h09
+
+*Impacto*: Consultar dossie.
+
+*Causa*: Em análise
+
+*Acionados*: Área de Operações de TI
+
+*Obs*: Realizando ações de 1º nível para regularização
+
+*Regularizado*: --h--
+
+
+*Adquirência PIX*
+
+*Incidente*: Instabilidade  para transações de pagamento na Adquirencia PIX.
+
+*Hora Identificação*: 14h41
+
+*Impacto*: Pagamentos pela Adquirencia PIX.
+
+*Causa*: Em análise.
+
+*Acionados*: Área de Operações de TI
+
+*Obs*.: Regularizado sem intervenção
+
+*Regularizado*: 14h42
+
+
+*Sisbr* - Plataforma de Atendimento
+
+*Incidente*: Instabilidade nas transações da Plataforma de Atendimento no Sisbr 2.0
+
+*Hora Inicio*: 13h11
+
+*Impacto*: Instabilidade no serviço de ALTERAR DADOS
+
+*Causa*: Processos em execução pelo pool BackofficeCapesCluster.
+
+*Acionados*: Área de Operações de TI
+
+*Obs*: Realizando ação de 1º nível
+
+*Regularizado*:
+
+*Cobrança Bancária*
+ 
+*Incidente*: Instabilidade para as transações de Cobrança Bancária
+ 
+*Inicio*: 12h45
+ 
+*Causa*: Em analise
+ 
+*Impacto*: Envio de boleto para pagamento via API
+ 
+*Acionados*: Área de Operações de TI
+ 
+*Obs*.: Realizando ações de 1° nível.
+ 
+*Regularizado*:
+
+
+*Open Finance*
+
+*Incidente*: Instabilidade No compartilhamento de informações .
+
+*Hora inicio*: 07h00
+
+*Impacto*: Erro ao compartilhar informações de contas e risco de perda do indicador de desempenho e disponibilidade
+
+*Causa*: Em análise
+
+*Acionados*: Área de Arquitetura de TI e Infraestrura
+
+*Obs*.: aparti das 09h30, foi confirmada perda no indicador de disponibilidade e desempenho. Estamos em Call tratando
+
+*Regularizado*: 
+
+
+*APIC Interno* - clearsale-biometria
+ 
+*Incidente*: Instabilidade para o serviço /itx-clear-sale-biometria/v2/faces:POST
+ 
+*Hora inicio*: 13h18
+ 
+*Impacto*: Leitura de biometria facial.
+
+*Causa*: Em análise
+
+*Acionados*: Regularizado sem intervenção
+
+*Regularizado*: 13h20
+
+
+*Novo Internet Banking*
+ 
+*Incidente*: Rejeições nos serviços do Novo IB (Sicoobnet)
+ 
+*Hora Início*: 13h16
+ 
+*Impacto*: Instabilidade nos serviços do Novo IB
+ 
+*Causa*: Instabilidade nos servidores do Sicoobnet 
+ 
+*Acionados*: Área de Operações de TI 
+ 
+*Obs*: Realizada ação de 1º nível.
+ 
+*Regularizado*: 13h29
+
+
+###########################
+
+*PIX*
+
+*Incidente*: Instabilidade para decodificação de QRCode no PIX
+
+*Hora Inicio*: 07h38
+
+*Impacto*: Pagamentos via QRCode 
+
+*Causa*: Instabilidade no ambiente do Mercado Pago.
+
+*Acionados*: Área de Operações de TI
+
+*Obs.*: Os erros ocorreram para a leitura de QRCode e posterior pagamento via PIX.
+
+*Obs1*.: Os erros ocorreram por instabilidade para decodificação de QRCode no Mercado Pago, não há problemas no ambiente CCS.
+
+*Regularizado*: --h--
+
+itx-mda-caf
+ 
+*Incidente*: Instabilidade para as transações do itx-mda-caf no APIC Interno.
+ 
+*Hora início*: 
+ 
+*Impacto*: Rejeições para as transações de pagamento de BNDES com o Ministério da Agricultura
+ 
+*Causa*: Instabilidade no ambiente que atende o itx-mda-caf.
+ 
+*Resolução*: Em analise.
+ 
+*Acionados*: Área de Operações de TI e Area de Sistemas de Crédito
+ 
+*Regularizado*:  
+
+
+*APIC Interno - fee-approval-control*
+ 
+*Incidente*: Indisponibilida para obter situação da instituição para credenciamento na Adquirencia
+ 
+*Hora inicio*: 15h00
+ 
+*Impacto*: Obter situação da instituição
+ 
+*Causa*: Em análise
+ 
+*Acionados*: Sistemas De Adquirência
+ 
+*Obs*: Times Reunidos tratando
+ 
+*Regularizado*:
+
+
+*SPB* TEDS VLB
+
+*Incidente*: Falha no pagamentos de TEDS Superior via SPB 
+
+Hora: 15h30
+
+Impacto: Pagamentos de TEDS superiores a 250 mil.
+
+Causa: Execução da demanda 480727
+
+*Acionados: Sistemas De Conta Corrente, Convênios e Cobrança e Sistemas De Cartões E Prevenção A Fraudes
+
+Obs.: Será realizado o rooback da demanda.
+
+Obs1: Estamos em call, a janela é até as 17h30.
+
+Regularizado: --h--
+
+
+*ITX - Integrações Externas*
+ 
+*Incidente*: Instabilidade para APIs que utilizam o Integrações Externas
+ 
+*Hora início*: 13h11
+ 
+*Causa*: Em análise
+ 
+*Impacto*: Instabilidade no serviço de empréstimo consignado trabalhador e saldo de FGTS
+ 
+*Acionados*: Área de Operações de TI
+ 
+*Obs*: Executando ações para regularização 
+
+*Regularizado*: --h--
+
+
+*Portal Lojista*
+
+*Incidente*: Nova Indisponibilidade para utilização do Portal Lojista
+
+*Hora Inicio*: 14h38
+
+*Impacto*: Utilização do Portal Lojista
+
+*Causa*: Em análise.
+
+*Acionados*: Área de Soluções Digitais e Meios de Pagamento.
+
+*Obs*.: Time acionado verificando. 
+
+*Regularizado*: --h--
+
+
+*sicoob-pix-api*
+
+*Incidente*: Rejeições para cadastrar chave pix na API sicoob-pix-api
+
+*Hora Início*: 12h06
+
+*Impacto*: Intabilidade para cadastro e consulta de chaves
+
+*Causa*:  Em análise
+ 
+*Acionados*: Sistemas De Pagamentos Digitais E Atendimento
+ 
+*Regularizado*: --h--
+
+
+consegue ver esse chamado? I2510-251696
+ 
+I2510-251622
+ 
+ 
+ 
+*API INTERNO* - SICOOB-SALARIO-COMUM
+ 
+*Incidente* : Instabilidade Abertura de Conta salário
+ 
+*Hora Identificação* : 12h50
+ 
+C*ausa* : Instabilidade nos serviços do parceiro, Receita Federal.
+ 
+*Impacto*: Abertura de contas salário.
+ 
+*Acionados* : Arquitetura de TI
+ 
+*Regularizado*: --h--
+
+
+*Itx Caixa-fgts*
+ 
+*Incidente*: Erros para o produto Itx empréstimo consignado trabalhador.
+ 
+*Hora início*: 13h07
+  
+*Impacto*: Falha ao consultar dados do FGTS.
+
+*Causa*: Em análise.
+
+*Acionados*: Área de Sistemas Corporativos, Compensação e SPB
+ 
+*Regularizado*: --h--
+
+
+*Clearsale Integrações Externas*
+
+*Incidente*: Rejeições para as transações do módulo ClearSale Integrações Externas
+
+*Inicio*: 10h47
+
+*Impacto*: Instabilidade para registrar transações
+
+*Causa*: Em análise
+
+*Acionados*: Área de Operações de TI
+
+*Obs*: Normalizado sem intervenção
+
+*Regularizado*: 10h49
+
+
+*ITX* - Integrações Externas
+ 
+*Incidente*: Instabilidae para integração dos serviços de crédito com órgãos externos
+ 
+*Hora início*: 11h10
+ 
+*Causa*: Em análise
+ 
+*Impacto*: Integração dos serviços de crédito com órgãos externos
+ 
+*Acionados*: Área de Sistemas Corporativos e Ecossistemas Digitais e Área de Gestão de DataCenter.
+ 
+*Obs*: Realizado ações de 1º nível
+ 
+*Regularizado*: 11h23
+
+
+*Falha na Decodificação de QRCode - PIX pelo parceiro Mercado Pago*
+
+*Incidente*: Falha no parceiro Mercado Pago para decodificação de QRCode no PIX
+
+*Hora Inicio*: --h--
+
+*Impacto*: Falha no Recebimento de Pagamentos via QRCode oriundos do parceiro Mercado Pago
+
+*Causa*: Instabilidade no ambiente do Mercado Pago.
+
+*Acionados*: Área de Operações de TI
+
+*Obs1.*: Os erros ocorreram por instabilidade para decodificação de QRCode no Mercado Pago, não há problemas no ambiente CCS.
+
+*Regularizado*: --h--
